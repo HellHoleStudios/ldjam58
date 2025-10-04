@@ -61,6 +61,11 @@ var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 func spawn_star_displayer(pos: Vector2):
 	# TODO: 替换为实际生成逻辑
-	var star = star_partial.instantiate()
+	var star:StarDisplayer = star_partial.instantiate()
+	
+	var base_star=BaseStarData.new()
+	base_star.mass=randf_range(5,15)
+	star.set_data(base_star)
+	
 	star.position = pos
 	stars.add_child(star)

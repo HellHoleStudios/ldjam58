@@ -16,5 +16,8 @@ func _physics_process(delta):
 	velocity = velocity.lerp(target_velocity, ACCELERATION * delta)
 	
 	# 4. Apply movement
-	move_and_slide()
-	
+	var collider:KinematicCollision2D=move_and_collide(velocity * delta)
+	if collider:
+		var target:Node2D=collider.get_collider()
+		#print("Sucked!!!")
+		#target.get_parent().queue_free()
