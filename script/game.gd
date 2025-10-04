@@ -67,21 +67,21 @@ func generate_stars():
 
 func update_star_forces():
 	# 所有stars内的BaseStarData再加上玩家的BaseStarData
-	var player_star: BaseStarData = $player.get_data()
+	var player_star:Star = $player
 	var all_stars: Array = [player_star]
 	for star in stars.get_children():
-		all_stars.append(star.get_data())
+		all_stars.append(star)
 	
 	# 计算每对星体间的引力并应用
 	for i in range(all_stars.size()):
 		for j in range(i + 1, all_stars.size()):
-			var star_a: BaseStarData = all_stars[i]
-			var star_b: BaseStarData = all_stars[j]
+			var star_a: Star = all_stars[i]
+			var star_b: Star = all_stars[j]
 			var force = calc_star_force(star_a, star_b)
-			star_a.apply_force(force)
-			star_b.apply_force(-force)
+			star_a.apply_central_impulse(force)
+			star_b.apply_central_impulse(-force)
 
-func calc_star_force(star_a: BaseStarData, star_b: BaseStarData) -> Vector2:
+func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	var G = 1000 # 引力常数，可调整
 	var dir = star_b.get_sprite().global_position - star_a.get_sprite().global_position
 	var dist_sq = dir.length_squared()
@@ -99,8 +99,6 @@ var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 func spawn_star_displayer(pos: Vector2):
 	var star = star_partial.instantiate()
-	var base_star = BaseStarData.new()
-	star.set_data(base_star)
-	base_star.set_mass(randf_range(5, 15))
+	star.mass=randf_range(5, 15)
 	star.position = pos
 	stars.add_child(star)

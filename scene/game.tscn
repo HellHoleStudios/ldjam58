@@ -29,13 +29,13 @@ texture = SubResource("NoiseTexture2D_3fokd")
 [node name="player" type="RigidBody2D" parent="."]
 script = ExtResource("1_5kiuu")
 
-[node name="Sprite2D" type="Sprite2D" parent="player"]
+[node name="Sprite" type="Sprite2D" parent="player"]
 texture = ExtResource("2_dbls1")
 
-[node name="Camera2D" type="Camera2D" parent="player/Sprite2D"]
+[node name="Camera2D" type="Camera2D" parent="player/Sprite"]
 limit_enabled = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+[node name="Collision" type="CollisionShape2D" parent="player"]
 shape = SubResource("CircleShape2D_5kiuu")
 
 [node name="stars" type="Node2D" parent="."]

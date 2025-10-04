@@ -1,24 +1,19 @@
-extends RigidBody2D
+extends Star
+class_name PlayerStar
 
 # Constants for movement tuning
 @export var SPEED = 300.0
 @export var ACCELERATION = 5.0 # Higher value means faster acceleration/deceleration
 
-var data: BaseStarData
-
-func get_data() -> BaseStarData:
-	return data
 
 func _ready() -> void:
-	data = BaseStarData.new()
-	data.set_sprite($Sprite2D)
-	data.set_collision_shape($CollisionShape2D)
-	data.set_rigidbody(self)
-	data.set_mass(10)
+	self.mass=10
 
 	print(contact_monitor)
 	contact_monitor = true
 	max_contacts_reported = 4
+	
+	super._ready()
 
 func _physics_process(delta):
 	# 1. Get the player input direction
@@ -34,9 +29,9 @@ func _physics_process(delta):
 	
 func _on_body_entered(body: Node) -> void:
 	print("collide!")
-	if body is StarDisplayer:
-		var star: StarDisplayer = body
-		if star.data.get_mass() < data.get_mass():
-			data.set_mass(star.data.get_mass() + data.get_mass())
+	if body is Star:
+		var star: Star = body
+		if star.get_mass() < mass:
+			self.update_mass(star.mass + mass)
 			star.queue_free()
-			print("Sucked!!! New mass:", data.get_mass())
+			print("Sucked!!! New mass:", mass)

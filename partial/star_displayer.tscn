@@ -1,16 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdwdr4okrcve6"]
 
-[ext_resource type="Script" uid="uid://olbf1cyeuutr" path="res://script/obj/star_displayer.gd" id="1_wnpqg"]
+[ext_resource type="Script" uid="uid://tbqjbph0ve71" path="res://script/obj/Star.gd" id="1_4gi8b"]
 [ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_4gi8b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4gi8b"]
 
-[node name="RigidBody2D" type="RigidBody2D"]
-script = ExtResource("1_wnpqg")
+[node name="Star" type="RigidBody2D"]
+script = ExtResource("1_4gi8b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4gi8b")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_4gi8b")
