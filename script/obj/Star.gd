@@ -2,6 +2,9 @@
 class_name Star
 extends RigidBody2D
 
+## 类型为：（符号缩写，int）。符号缩写例如H、Fe
+var elements: Dictionary
+
 #func _init(_mass: float = 1.0):
 	#self.mass=_mass
 	#
@@ -21,6 +24,12 @@ func get_radius() -> float:
 
 func get_sprite() -> Sprite2D:
 	return $Sprite
+
+func merge_elements(other: Star):
+	for i in other.elements:
+		if i not in elements:
+			elements[i]=0
+		elements[i]+=other.elements[i]
 
 func update_visual():
 	var radius = get_radius()

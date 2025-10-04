@@ -98,7 +98,14 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 func spawn_star_displayer(pos: Vector2):
-	var star = star_partial.instantiate()
-	star.mass=randf_range(5, 15)
+	var star:Star = star_partial.instantiate()
+	
+	star.mass=randf_range(5,15)
 	star.position = pos
+	star.elements = {
+		"H": randi_range(1,2),
+		"He": randi_range(1,2),
+		"Si": randi_range(1,3)
+	}
+	
 	stars.add_child(star)

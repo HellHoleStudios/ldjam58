@@ -33,5 +33,6 @@ func _on_body_entered(body: Node) -> void:
 		var star: Star = body
 		if star.get_mass() < mass:
 			self.update_mass(star.mass + mass)
+			self.merge_elements(star)
 			star.queue_free()
 			print("Sucked!!! New mass:", mass)
