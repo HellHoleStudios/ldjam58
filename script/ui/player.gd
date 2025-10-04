@@ -1,24 +1,20 @@
-extends RigidBody2D
+extends CharacterBody2D
 
-const MOVE_IMPULSE = 5.0 #TODO Magic Number
+# Constants for movement tuning
+@export var SPEED = 300.0
+@export var ACCELERATION = 5.0 # Higher value means faster acceleration/deceleration
 
-# TODO
-func _input(event: InputEvent) -> void:
-	var direction = Vector2.ZERO
+func _physics_process(delta):
+	# 1. Get the player input direction
+	var input_direction = Input.get_vector("A", "D", "W", "S").normalized()
 	
-	# Check for discrete "just pressed" events
-	if Input.is_action_pressed("D"):
-		direction.x += 1
-	if Input.is_action_pressed("A"):
-		direction.x -= 1
-	if Input.is_action_pressed("W"):
-		direction.y -= 1
-	if Input.is_action_pressed("S"):
-		direction.y += 1
-		
-	# Apply the impulse on the frame the key is pressed
-	if direction != Vector2.ZERO:
-		# Normalize to prevent faster diagonal impulse
-		direction = direction.normalized()
-		# Apply the central impulse
-		apply_central_impulse(direction * MOVE_IMPULSE)
+	# 2. Calculate the target velocity
+	var target_velocity = input_direction * SPEED
+	
+	# 3. Smoothly accelerate/decsdselerate towards the target velocity using lerp
+	# This is the key to smooth movement.
+	velocity = velocity.lerp(target_velocity, ACCELERATION * delta)
+	
+	# 4. Apply movement
+	move_and_slide()
+	
