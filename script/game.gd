@@ -10,6 +10,7 @@ var last_player_pos: Vector2 = Vector2.ZERO
 var boundary_radius: float = 1000 # 圆形边界半径，可调整
 var density_ratio: float = 1000 # 密度参数，越大生成越稠密
 var area_accum: float = 0.0 # 累计新区域面积
+const MAX_GRAVITY_DIST=500*500
 
 # stars节点引用（需在ready时获取或导出）
 @onready var stars = $stars
@@ -82,6 +83,8 @@ func update_star_forces():
 			var star_a: Star = all_stars[i]
 			var star_b: Star = all_stars[j]
 			var force = calc_star_force(star_a, star_b)
+			if force.is_zero_approx():
+				continue
 			star_a.apply_central_impulse(force)
 			star_b.apply_central_impulse(-force)
 
@@ -91,12 +94,16 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	var dist_sq = dir.length_squared()
 	if dist_sq == 0:
 		return Vector2.ZERO
+	if dist_sq > MAX_GRAVITY_DIST:
+		return Vector2.ZERO
 	var min_dist = star_a.get_radius() + star_b.get_radius()
+	min_dist*=1.5
 	var dist = sqrt(dist_sq)
 	var force_mag = G * star_a.get_mass() * star_b.get_mass() / dist_sq
-	# 当距离小于两者半径径时，引力线性减小到0
+	
 	if dist < min_dist:
-		force_mag = (dist / min_dist) * (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
+		#force_mag = (dist / min_dist) * (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
+		force_mag = (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
 	return dir.normalized() * force_mag
 
 static var star_partial = preload("res://partial/star_displayer.tscn")

@@ -18,6 +18,9 @@ func _ready() -> void:
 	contact_monitor = true
 	max_contacts_reported = 4
 
+func _physics_process(delta: float) -> void:
+	rotation=0
+
 func update_mass(_mass: float):
 	mass = _mass
 	update_visual()
@@ -49,10 +52,11 @@ func _on_body_entered(body: Node) -> void:
 				star.queue_free()
 				print("Sucked!!! New mass:", mass)
 			else:
-				var BOUNCE_FACTOR = 4
+				var BOUNCE_FACTOR = 20
 				var dir = (star.position - position).normalized()
 				# 连线方向上的分速度设为0
 				var rel_vel = star.linear_velocity - linear_velocity
 				var proj = rel_vel.dot(dir)
-				star.linear_velocity -= dir * proj * BOUNCE_FACTOR
-				linear_velocity += dir * proj * BOUNCE_FACTOR
+				var v=dir * proj * BOUNCE_FACTOR/(star.mass+mass)
+				star.linear_velocity -= v*mass
+				linear_velocity += v*star.mass
