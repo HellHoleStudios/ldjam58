@@ -4,19 +4,19 @@
 
 Stars have 3 attributes: Type, Mass, Elemental composition
 
-### Main Sequence Star
+### Star
 
 Initial type.
 
 Changes own elemtnal composition acording to fusion chain: H He C Ne O Si Fe
 
-When fusion fuel runs out triggers **explosion:supernova**, turns into **black hole** or **neutron star** depends on mass
+When fusion fuel runs out triggers **explosion:supernova**, turns into **black hole** or **neutron star** depending on mass
 
-If mass very high turns into giant star.
+<!-- If mass very high turns into giant star.
 
 ### Giant Star
 
-same as main sequence star but density much lower (larger collision)
+same as main sequence star but density much lower (larger collision) -->
 
 ### Black Hole
 
