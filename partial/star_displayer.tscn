@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdwdr4okrcve6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xaldk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_wnpqg"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4gi8b"]
+
+[node name="StarDisplayer" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_xaldk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_wnpqg")
+texture = SubResource("CanvasTexture_4gi8b")
