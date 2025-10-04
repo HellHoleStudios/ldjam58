@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdwdr4okrcve6"]
 
+[ext_resource type="Script" uid="uid://olbf1cyeuutr" path="res://script/obj/star_displayer.gd" id="1_wnpqg"]
+[ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_4gi8b"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_xaldk"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_wnpqg"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_4gi8b"]
-
 [node name="StarDisplayer" type="Node2D"]
+script = ExtResource("1_wnpqg")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 
@@ -14,8 +14,4 @@
 shape = SubResource("CircleShape2D_xaldk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-scale = Vector2(20, 20)
-mesh = SubResource("SphereMesh_wnpqg")
-texture = SubResource("CanvasTexture_4gi8b")
+texture = ExtResource("2_4gi8b")

@@ -3,12 +3,12 @@ extends Node2D
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
 var last_player_pos: Vector2 = Vector2.ZERO
-var boundary_radius: float = 14 # 圆形边界半径，可调整
-var density: float = 100 # 密度参数，越大生成越稀疏
+var boundary_radius: float = 1000 # 圆形边界半径，可调整
+var density_ratio: float = 1000 # 密度参数，越大生成越稠密
 var area_accum: float = 0.0 # 累计新区域面积
 
 # stars节点引用（需在ready时获取或导出）
-@onready var stars = get_node_or_null("../stars/")
+@onready var stars = $stars
 
 # 玩家调用此函数更新位置
 func update_player_pos(new_pos: Vector2):
@@ -20,24 +20,20 @@ func _process(delta):
 		return
 	# 1. 检查所有star_displayer是否在圆形边界内
 	for star in stars.get_children():
-		if not star.has_method("get_position"):
-			continue
-		var pos = star.position if star.has_variable("position") else star.get_position()
+		var pos = star.position
 		if pos.distance_to(player_pos) > boundary_radius:
 			star.queue_free()
 
 	# 2. 计算新旧圆环区域面积
-	var area_new = PI * pow(boundary_radius, 2)
-	var area_old = PI * pow(boundary_radius, 2)
 	var move_dist = player_pos.distance_to(last_player_pos)
 	if move_dist > 0:
 		# 相应方向的半圆向player_pos-last_player_pos运动产生的区域：2*PI*R*dx
 		var ring_area = PI * boundary_radius * move_dist
 		area_accum += ring_area
 		# 3. 按密度生成新star_displayer
+		var density = boundary_radius * boundary_radius / density_ratio
 		var spawn_count = int(area_accum / density)
 		for i in range(spawn_count):
-			print("Spawning star_displayer at new area")
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
 			var move_dir = move_vec.normalized() if move_dist > 0 else Vector2.RIGHT
@@ -52,7 +48,7 @@ func _process(delta):
 
 			# 沿移动方向再推进0~1倍的移动距离
 			var advance = move_dir * (randf() * move_dist)
-			var pos = player_pos + offset + advance
+			var pos = player_pos + offset - advance
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
@@ -61,10 +57,10 @@ func _process(delta):
 
 	last_player_pos = player_pos
 
+var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 func spawn_star_displayer(pos: Vector2):
 	# TODO: 替换为实际生成逻辑
-	var star_partial = preload("res://partial/star_displayer.tscn")
-	var star = star_partial.instance()
+	var star = star_partial.instantiate()
 	star.position = pos
 	stars.add_child(star)
