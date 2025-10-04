@@ -8,6 +8,7 @@ class_name PlayerStar
 
 func _ready() -> void:
 	self.mass = 10
+	randomize_elements()
 
 	print(contact_monitor)
 

@@ -2,8 +2,8 @@ extends GridContainer
 
 var elements=[]
 func _process(delta: float) -> void:
-	$Mass.text="%.3f kg"%(%player.mass)
-	
+	$Mass.text="%.3f M⨀"%(%player.mass)
+	$Merge.text="%d times"%(%player.merge_count)
 	for i in %player.elements:
 		if i not in elements:
 			elements.append(i)
@@ -18,4 +18,4 @@ func _process(delta: float) -> void:
 			add_child(lbl2)
 	
 	for i in elements:
-		get_node(i).text="%d kg"%[%player.elements[i]]
+		get_node(i).text="%.3f M⨀"%[%player.elements[i]]

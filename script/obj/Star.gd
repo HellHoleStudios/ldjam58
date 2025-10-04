@@ -4,6 +4,7 @@ extends RigidBody2D
 
 ## 类型为：（符号缩写，int）。符号缩写例如H、Fe
 var elements: Dictionary
+var merge_count: int
 
 #func _init(_mass: float = 1.0):
 	#self.mass=_mass
@@ -17,6 +18,7 @@ func _ready() -> void:
 
 	contact_monitor = true
 	max_contacts_reported = 4
+	merge_count=0
 
 func _physics_process(delta: float) -> void:
 	rotation=0
@@ -30,6 +32,22 @@ func get_radius() -> float:
 
 func get_sprite() -> Sprite2D:
 	return $Sprite
+
+func randomize_elements():
+	elements={
+		"H": randf_range(50,100),
+		"He": randf_range(20,50),
+		"C":randf_range(1,10),
+		"Ne":randf_range(1,5),
+		"O":randf_range(1,5),
+		"Fe": randf_range(0,1),
+		"Si": randf_range(0,1),
+	}
+	var sm=0
+	for k in elements:
+		sm+=elements[k]
+	for k in elements:
+		elements[k]=elements[k]/sm*mass
 
 func merge_elements(other: Star):
 	for i in other.elements:
@@ -46,12 +64,13 @@ func update_visual():
 func _on_body_entered(body: Node) -> void:
 	if body is Star:
 		var star: Star = body
-		if star.get_mass() < mass:
+		if star.get_mass() < mass*1.2:
 			if star is not PlayerStar:
 				self.update_mass(star.mass + mass)
 				self.merge_elements(star)
 				star.queue_free()
 				print("Sucked!!! New mass:", mass)
+				merge_count+=1
 			else:
 				var BOUNCE_FACTOR = 20
 				var dir = (star.position - position).normalized()

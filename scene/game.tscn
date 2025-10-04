@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 [ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_dbls1"]
-[ext_resource type="Script" path="res://script/bg.gd" id="2_xwcet"]
-[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
+[ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
@@ -74,7 +74,15 @@ layout_mode = 2
 columns = 2
 script = ExtResource("5_p1ry8")
 
-[node name="Label" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
+[node name="LabelMerge" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
+layout_mode = 2
+text = "Merged"
+
+[node name="Merge" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="LabelMass" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
 layout_mode = 2
 text = "Mass"
 

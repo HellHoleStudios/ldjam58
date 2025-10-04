@@ -113,11 +113,6 @@ static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vec
 	star.mass = mass
 	star.position = pos
 	star.linear_velocity = linear_velocity
-	star.elements={
-		"H": randi_range(0,1),
-		"He": randi_range(0,1),
-		"Fe": randi_range(0,1),
-		"Si": randi_range(0,1)
-	}
+	star.randomize_elements()
 	
 	instance.stars.add_child(star)
