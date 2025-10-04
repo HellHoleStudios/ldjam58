@@ -3,8 +3,8 @@ extends Node2D
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
 var last_player_pos: Vector2 = Vector2.ZERO
-var boundary_radius: float = 1000.0 # 圆形边界半径，可调整
-var density: float = 50000.0 # 密度参数，越大生成越稀疏
+var boundary_radius: float = 14 # 圆形边界半径，可调整
+var density: float = 100 # 密度参数，越大生成越稀疏
 var area_accum: float = 0.0 # 累计新区域面积
 
 # stars节点引用（需在ready时获取或导出）
@@ -15,6 +15,7 @@ func update_player_pos(new_pos: Vector2):
 	player_pos = new_pos
 
 func _process(delta):
+	player_pos = $player.position
 	if not stars:
 		return
 	# 1. 检查所有star_displayer是否在圆形边界内
@@ -36,6 +37,7 @@ func _process(delta):
 		# 3. 按密度生成新star_displayer
 		var spawn_count = int(area_accum / density)
 		for i in range(spawn_count):
+			print("Spawning star_displayer at new area")
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
 			var move_dir = move_vec.normalized() if move_dist > 0 else Vector2.RIGHT
