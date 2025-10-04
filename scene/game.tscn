@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=7 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
+[ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23031491, 0.23031494, 0.23031494, 1)
@@ -17,6 +18,7 @@ color_ramp = SubResource("Gradient_5kiuu")
 size = Vector2(64, 64)
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="."]
 position = Vector2(-28, 1)
@@ -33,3 +35,5 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="stars" type="Node2D" parent="."]
