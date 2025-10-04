@@ -1,3 +1,31 @@
-[gd_scene format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=5 format=3 uid="uid://brvqecxd83x06"]
+
+[ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qkg6r"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3fokd"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_qkg6r")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hbuao"]
+size = Vector2(64, 64)
 
 [node name="Game" type="Node2D"]
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(-28, 1)
+texture = SubResource("NoiseTexture2D_3fokd")
+
+[node name="player" type="RigidBody2D" parent="."]
+script = ExtResource("1_5kiuu")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+texture = SubResource("PlaceholderTexture2D_hbuao")
+
+[node name="Camera2D" type="Camera2D" parent="player/Sprite2D"]
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
