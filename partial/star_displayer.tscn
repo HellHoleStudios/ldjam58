@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdwdr4okrcve6"]
 
 [ext_resource type="Script" uid="uid://tbqjbph0ve71" path="res://script/obj/Star.gd" id="1_4gi8b"]
-[ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_4gi8b"]
+[ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="2_4gi8b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4gi8b"]
 

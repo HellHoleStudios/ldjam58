@@ -5,6 +5,7 @@ extends RigidBody2D
 ## 类型为：（符号缩写，int）。符号缩写例如H、Fe
 var elements: Dictionary
 var merge_count: int
+var color_ramp=preload("res://partial/star_color.tres")
 
 #func _init(_mass: float = 1.0):
 	#self.mass=_mass
@@ -48,17 +49,24 @@ func randomize_elements():
 		sm+=elements[k]
 	for k in elements:
 		elements[k]=elements[k]/sm*mass
+	update_visual()
 
 func merge_elements(other: Star):
 	for i in other.elements:
 		if i not in elements:
 			elements[i]=0
 		elements[i]+=other.elements[i]
+	update_visual()
 
 func update_visual():
 	var radius = get_radius()
-	$Sprite.scale = Vector2(1, 1) * radius / 32
+	$Sprite.scale = Vector2(1, 1) * radius / ($Sprite.texture.get_height()/2)
 	$Collision.shape.radius = radius
+	
+	if "H" in elements and "He" in elements:
+		print(color_ramp.sample(1-elements["H"]/mass))
+		$Sprite.self_modulate=color_ramp.sample(1-elements["H"]/mass)
+	
 	
 
 func _on_body_entered(body: Node) -> void:
