@@ -19,6 +19,7 @@ color_ramp = SubResource("Gradient_5kiuu")
 radius = 32.0
 
 [node name="Game" type="Node2D"]
+texture_filter = 2
 script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="."]
