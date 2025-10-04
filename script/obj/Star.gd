@@ -49,6 +49,7 @@ func _on_body_entered(body: Node) -> void:
 		if star.get_mass() < mass:
 			if star is not PlayerStar:
 				self.update_mass(star.mass + mass)
+				self.merge_elements(star)
 				star.queue_free()
 				print("Sucked!!! New mass:", mass)
 			else:

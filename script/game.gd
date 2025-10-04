@@ -109,8 +109,15 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 static var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vector2 = Vector2.ZERO):
-	var star = star_partial.instantiate()
+	var star:Star = star_partial.instantiate()
 	star.mass = mass
 	star.position = pos
 	star.linear_velocity = linear_velocity
+	star.elements={
+		"H": randi_range(0,1),
+		"He": randi_range(0,1),
+		"Fe": randi_range(0,1),
+		"Si": randi_range(0,1)
+	}
+	
 	instance.stars.add_child(star)
