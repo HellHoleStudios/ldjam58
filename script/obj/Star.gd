@@ -64,7 +64,7 @@ func update_visual():
 func _on_body_entered(body: Node) -> void:
 	if body is Star:
 		var star: Star = body
-		if star.get_mass() < mass*1.2:
+		if star.get_mass() < mass:
 			if star is not PlayerStar:
 				self.update_mass(star.mass + mass)
 				self.merge_elements(star)

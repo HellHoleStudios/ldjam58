@@ -15,6 +15,8 @@ func _ready() -> void:
 	super._ready()
 
 func _physics_process(delta):
+	super(delta)
+	
 	# 1. Get the player input direction
 	var input_direction = Input.get_vector("A", "D", "W", "S").normalized()
 	
@@ -35,5 +37,3 @@ func _physics_process(delta):
 		mag=clampf(mag,0,acceleration*delta)
 		diff*=mag
 		linear_velocity+=diff
-	
-	super(delta)
