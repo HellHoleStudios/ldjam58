@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_dbls1"]
+[ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23031491, 0.23031494, 0.23031494, 1)
@@ -18,6 +19,7 @@ color_ramp = SubResource("Gradient_5kiuu")
 radius = 32.0
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="."]
 position = Vector2(-28, 1)
@@ -34,3 +36,9 @@ limit_enabled = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 shape = SubResource("CircleShape2D_5kiuu")
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="stars" type="Node2D" parent="."]
