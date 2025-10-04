@@ -1,4 +1,8 @@
 extends Node2D
+class_name Game
+static var instance: Game
+func _ready() -> void:
+	instance = self
 
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
@@ -60,14 +64,14 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				spawn_star_displayer(pos)
+				spawn_star_displayer(pos, randf_range(5, 15))
 		area_accum -= spawn_count * density
 	
 	last_player_pos = player_pos
 
 func update_star_forces():
 	# 所有stars内的BaseStarData再加上玩家的BaseStarData
-	var player_star:Star = $player
+	var player_star: Star = $player
 	var all_stars: Array = [player_star]
 	for star in stars.get_children():
 		all_stars.append(star)
@@ -95,17 +99,11 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 		force_mag = (dist / min_dist) * (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
 	return dir.normalized() * force_mag
 
-var star_partial = preload("res://partial/star_displayer.tscn")
+static var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
-func spawn_star_displayer(pos: Vector2):
-	var star:Star = star_partial.instantiate()
-	
-	star.mass=randf_range(5,15)
+static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vector2 = Vector2.ZERO):
+	var star = star_partial.instantiate()
+	star.mass = mass
 	star.position = pos
-	star.elements = {
-		"H": randi_range(1,2),
-		"He": randi_range(1,2),
-		"Si": randi_range(1,3)
-	}
-	
-	stars.add_child(star)
+	star.linear_velocity = linear_velocity
+	instance.stars.add_child(star)

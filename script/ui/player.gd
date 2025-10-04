@@ -7,12 +7,10 @@ class_name PlayerStar
 
 
 func _ready() -> void:
-	self.mass=10
+	self.mass = 10
 
 	print(contact_monitor)
-	contact_monitor = true
-	max_contacts_reported = 4
-	
+
 	super._ready()
 
 func _physics_process(delta):
@@ -26,13 +24,3 @@ func _physics_process(delta):
 	# This is the key to smooth movement.
 	# For RigidBody2D, we set the linear_velocity directly
 	linear_velocity = linear_velocity.lerp(target_velocity, ACCELERATION * delta)
-	
-func _on_body_entered(body: Node) -> void:
-	print("collide!")
-	if body is Star:
-		var star: Star = body
-		if star.get_mass() < mass:
-			self.update_mass(star.mass + mass)
-			self.merge_elements(star)
-			star.queue_free()
-			print("Sucked!!! New mass:", mass)
