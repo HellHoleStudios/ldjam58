@@ -18,19 +18,27 @@ func _process(delta):
 	player_pos = $player.position
 	if not stars:
 		return
-	# 1. 检查所有star_displayer是否在圆形边界内
+	clean_up_stars()
+	generate_stars()
+
+	# 计算所有星体间的引力并应用
+	update_star_forces()
+	
+func clean_up_stars():
+	# 检查所有star_displayer是否在圆形边界内
 	for star in stars.get_children():
 		var pos = star.position
 		if pos.distance_to(player_pos) > boundary_radius:
 			star.queue_free()
 
-	# 2. 计算新旧圆环区域面积
+func generate_stars():
+	# 计算新旧圆环区域面积
 	var move_dist = player_pos.distance_to(last_player_pos)
 	if move_dist > 0:
 		# 相应方向的半圆向player_pos-last_player_pos运动产生的区域：2*PI*R*dx
 		var ring_area = PI * boundary_radius * move_dist
 		area_accum += ring_area
-		# 3. 按密度生成新star_displayer
+		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
 		var spawn_count = int(area_accum / density)
 		for i in range(spawn_count):
@@ -54,18 +62,45 @@ func _process(delta):
 			if pos.distance_to(last_player_pos) > boundary_radius:
 				spawn_star_displayer(pos)
 		area_accum -= spawn_count * density
-
+	
 	last_player_pos = player_pos
+
+func update_star_forces():
+	# 所有stars内的BaseStarData再加上玩家的BaseStarData
+	var player_star: BaseStarData = $player.get_data()
+	var all_stars: Array = [player_star]
+	for star in stars.get_children():
+		all_stars.append(star.get_data())
+	
+	# 计算每对星体间的引力并应用
+	for i in range(all_stars.size()):
+		for j in range(i + 1, all_stars.size()):
+			var star_a: BaseStarData = all_stars[i]
+			var star_b: BaseStarData = all_stars[j]
+			var force = calc_star_force(star_a, star_b)
+			star_a.apply_force(force)
+			star_b.apply_force(-force)
+
+func calc_star_force(star_a: BaseStarData, star_b: BaseStarData) -> Vector2:
+	var G = 1000 # 引力常数，可调整
+	var dir = star_b.get_sprite().global_position - star_a.get_sprite().global_position
+	var dist_sq = dir.length_squared()
+	if dist_sq == 0:
+		return Vector2.ZERO
+	var min_dist = star_a.get_radius() + star_b.get_radius()
+	var dist = sqrt(dist_sq)
+	var force_mag = G * star_a.get_mass() * star_b.get_mass() / dist_sq
+	# 当距离小于两者半径径时，引力线性减小到0
+	if dist < min_dist:
+		force_mag = (dist / min_dist) * (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
+	return dir.normalized() * force_mag
 
 var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 func spawn_star_displayer(pos: Vector2):
-	# TODO: 替换为实际生成逻辑
-	var star:StarDisplayer = star_partial.instantiate()
-	
-	var base_star=BaseStarData.new()
-	base_star.mass=randf_range(5,15)
+	var star = star_partial.instantiate()
+	var base_star = BaseStarData.new()
 	star.set_data(base_star)
-	
+	base_star.set_mass(randf_range(5, 15))
 	star.position = pos
 	stars.add_child(star)

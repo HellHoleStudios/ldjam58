@@ -1,11 +1,14 @@
-extends Node2D
+extends RigidBody2D
 class_name StarDisplayer
 
 var data: BaseStarData
 
-func set_data(data: BaseStarData):
-	self.mass=data.mass
-	var rad=data.mass # TODO
-	$CollisionShape2D.shape=CircleShape2D.new()
-	$CollisionShape2D.shape.radius=rad
-	$Sprite2D.scale=Vector2(rad,rad)/32
+func get_data() -> BaseStarData:
+	return data
+
+func set_data(d: BaseStarData):
+	data = d
+	data.set_sprite($Sprite2D)
+	data.set_collision_shape($CollisionShape2D)
+	data.set_rigidbody(self)
+	data.update_visual()

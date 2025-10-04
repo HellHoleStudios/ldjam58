@@ -25,8 +25,7 @@ script = ExtResource("1_dbls1")
 position = Vector2(-28, 1)
 texture = SubResource("NoiseTexture2D_3fokd")
 
-[node name="player" type="CharacterBody2D" parent="."]
-motion_mode = 1
+[node name="player" type="RigidBody2D" parent="."]
 script = ExtResource("1_5kiuu")
 
 [node name="Sprite2D" type="Sprite2D" parent="player"]
@@ -39,3 +38,5 @@ limit_enabled = false
 shape = SubResource("CircleShape2D_5kiuu")
 
 [node name="stars" type="Node2D" parent="."]
+
+[connection signal="body_entered" from="player" to="player" method="_on_body_entered"]
