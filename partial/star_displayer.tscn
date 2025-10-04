@@ -5,12 +5,10 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4gi8b"]
 
-[node name="StarDisplayer" type="Node2D"]
+[node name="RigidBody2D" type="RigidBody2D"]
 script = ExtResource("1_wnpqg")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4gi8b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

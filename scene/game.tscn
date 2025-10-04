@@ -26,6 +26,7 @@ position = Vector2(-28, 1)
 texture = SubResource("NoiseTexture2D_3fokd")
 
 [node name="player" type="CharacterBody2D" parent="."]
+motion_mode = 1
 script = ExtResource("1_5kiuu")
 
 [node name="Sprite2D" type="Sprite2D" parent="player"]

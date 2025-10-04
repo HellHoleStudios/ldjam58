@@ -4,6 +4,16 @@ extends CharacterBody2D
 @export var SPEED = 300.0
 @export var ACCELERATION = 5.0 # Higher value means faster acceleration/deceleration
 
+var mass: float
+
+func _ready() -> void:
+	set_mass(10)
+	
+func set_mass(mass: float):
+	self.mass=mass
+	$Sprite2D.scale=Vector2(mass,mass)/32
+	$CollisionShape2D.shape.radius=mass
+
 func _physics_process(delta):
 	# 1. Get the player input direction
 	var input_direction = Input.get_vector("A", "D", "W", "S").normalized()
@@ -18,6 +28,10 @@ func _physics_process(delta):
 	# 4. Apply movement
 	var collider:KinematicCollision2D=move_and_collide(velocity * delta)
 	if collider:
-		var target:Node2D=collider.get_collider()
-		#print("Sucked!!!")
-		#target.get_parent().queue_free()
+		var star:StarDisplayer=collider.get_collider()
+		#var star:StarDisplayer=target.get_parent()
+		
+		if star.mass<self.mass:
+			set_mass(star.mass+self.mass)
+			star.queue_free()
+			print("Sucked!!! New mass:",mass)
