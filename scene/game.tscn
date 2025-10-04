@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=6 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
+
+[sub_resource type="Gradient" id="Gradient_5kiuu"]
+colors = PackedColorArray(0, 0, 0, 1, 0.23031491, 0.23031494, 0.23031494, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_qkg6r"]
 
@@ -8,6 +11,7 @@
 width = 2048
 height = 2048
 noise = SubResource("FastNoiseLite_qkg6r")
+color_ramp = SubResource("Gradient_5kiuu")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hbuao"]
 size = Vector2(64, 64)
