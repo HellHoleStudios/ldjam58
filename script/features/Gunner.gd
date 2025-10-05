@@ -16,7 +16,7 @@ Can be found in the wild with a small chance.
 
 
 func shoot(direction: Vector2) -> void:
-	var BULLET_MASS_RATIO = 0.2
+	var BULLET_MASS_RATIO = 0.02
 	var bullet = Game.spawn_star_displayer(star.position,
 										   star.mass * BULLET_MASS_RATIO)
 	star.update_mass(star.mass * (1 - BULLET_MASS_RATIO))
@@ -26,7 +26,7 @@ func shoot(direction: Vector2) -> void:
 	bullet.position += direction.normalized() * radius_sum * 1.5
 	star.add_ignore_gravity(bullet, 5)
 
-	bullet.linear_velocity = direction.normalized() * 600
+	bullet.linear_velocity = direction.normalized() * star.get_radius() * 40
 	var bullet_feature = bullet_script.new(bullet, 1)
 	bullet_feature.father = star
 

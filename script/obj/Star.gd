@@ -81,8 +81,8 @@ func split(split_mass: float) -> Star:
 	var radius_sum = get_radius() + new_star.get_radius()
 	# 位置稍微偏移，防止重叠
 	var rand_angle = randf() * PI * 2
-	new_star.position = position + Vector2(radius_sum * 1.5, 0).rotated(rand_angle)
-	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * randf_range(0, 1) + (mass + split_mass) * 10, 0).rotated(rand_angle)
+	new_star.position = position + Vector2(radius_sum * 1.01, 0).rotated(rand_angle)
+	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * randf_range(0, 1) + radius_sum * 10, 0).rotated(rand_angle)
 	
 	# 按比例分配元素
 	new_star.elements = {}
