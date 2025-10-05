@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=14 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 [ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
 [ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
-[ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
-[ext_resource type="Script" path="res://script/ui/camera.gd" id="5_qpk70"]
+[ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
+[ext_resource type="Script" uid="uid://b2bojqc03srss" path="res://script/ui/collection_container.gd" id="8_ll5lq"]
+[ext_resource type="Texture2D" uid="uid://cuxpgrm64au7k" path="res://texture/feature/Fluctuation.png" id="9_17rxn"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -16,7 +18,6 @@ colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xlg7c"]
 width = 2048
 height = 2048
-generate_mipmaps = false
 noise = SubResource("FastNoiseLite_p1ry8")
 color_ramp = SubResource("Gradient_5kiuu")
 seamless = true
@@ -30,7 +31,7 @@ script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="." node_paths=PackedStringArray("camera")]
 z_index = -1000
-texture_filter = 1
+texture_filter = 4
 texture_repeat = 3
 position = Vector2(0, 1)
 texture = SubResource("NoiseTexture2D_xlg7c")
@@ -101,4 +102,52 @@ text = "Mass"
 layout_mode = 2
 text = "1.234kg"
 
+[node name="CollectionContainer" type="FoldableContainer" parent="CanvasLayer/UIRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 966.0
+offset_top = 19.0
+offset_right = 1081.0
+offset_bottom = 296.0
+grow_horizontal = 0
+title = "Collection"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/CollectionContainer"]
+layout_mode = 2
+script = ExtResource("8_ll5lq")
+
+[node name="Window" type="Window" parent="CanvasLayer/UIRoot/CollectionContainer"]
+oversampling_override = 1.0
+title = "INFORMATION"
+initial_position = 1
+size = Vector2i(400, 400)
+visible = false
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UIRoot/CollectionContainer/Window"]
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 139.0
+offset_bottom = 139.0
+texture = ExtResource("9_17rxn")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UIRoot/CollectionContainer/Window"]
+offset_left = 139.0
+offset_top = 51.0
+offset_right = 387.0
+offset_bottom = 101.0
+theme_override_font_sizes/font_size = 36
+text = "Feature Name"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UIRoot/CollectionContainer/Window"]
+offset_left = 11.0
+offset_top = 139.0
+offset_right = 387.0
+offset_bottom = 387.0
+text = "Feature Description Goes Here!!!"
+autowrap_mode = 3
+
 [connection signal="body_entered" from="player" to="player" method="_on_body_entered"]
+[connection signal="close_requested" from="CanvasLayer/UIRoot/CollectionContainer/Window" to="CanvasLayer/UIRoot/CollectionContainer/VBoxContainer" method="_on_window_close_requested"]

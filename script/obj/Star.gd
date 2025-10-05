@@ -184,7 +184,7 @@ func _on_body_entered(body: Node) -> void:
 					var explosion: Sprite2D = explosion_scene.instantiate()
 					get_tree().current_scene.add_child(explosion)
 					explosion.global_position = global_position
-					var explosion_scale = get_radius() / 20
+					var explosion_scale = get_radius() / 40
 					explosion.scale = Vector2(explosion_scale, explosion_scale)
 				else:
 					var BOUNCE_FACTOR = 20

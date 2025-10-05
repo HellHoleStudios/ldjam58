@@ -1,9 +1,13 @@
 extends Node2D
 class_name Game
 static var instance: Game
+
+signal init_features_finished
+
 func _ready() -> void:
 	instance = self
 	init_features()
+	init_features_finished.emit()
 
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
@@ -82,7 +86,7 @@ func generate_stars():
 var features = []
 func init_features():
 	features = []
-	var dir = DirAccess.open("res://script/features")
+	var dir = DirAccess.open("res://script/features") # FIXME according to doc this is not correct.
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()

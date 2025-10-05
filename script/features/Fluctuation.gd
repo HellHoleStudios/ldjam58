@@ -6,6 +6,14 @@ static var circle_wave_partial = preload("res://partial/circle_wave.tscn")
 var timer = 0
 var interval = 2
 
+static func get_feature_name() -> String:
+	return "Fluctuation"
+static func get_feature_desc() -> String:
+	return """
+Generate a fluctuation wave every once in a while that pushes large objects away.
+Can be found in the wild with a small chance.
+	"""
+
 func process(delta: float) -> void:
 	timer += delta
 	var affect_range = star.get_radius() * 20
