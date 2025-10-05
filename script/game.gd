@@ -151,7 +151,7 @@ static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vec
 	star.mass = mass
 	star.position = pos
 	star.linear_velocity = linear_velocity
-	star.randomize_elements()
+	star.age=randf_range(0,0.8)
 	
 	instance.stars.add_child(star)
 	return star

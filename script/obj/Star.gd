@@ -3,7 +3,7 @@ class_name Star
 extends RigidBody2D
 
 ## 类型为：（符号缩写，int）。符号缩写例如H、Fe
-var elements: Dictionary
+var age: float
 var merge_count: int
 var color_ramp = preload("res://partial/star_color.tres")
 var explosion_scene = preload("res://partial/explosion.tscn")
@@ -48,29 +48,8 @@ func get_radius() -> float:
 func get_sprite() -> Sprite2D:
 	return $Sprite
 
-func randomize_elements():
-	var h = randf_range(30, 80)
-	elements = {
-		"H": h,
-		"He": 90 - h,
-		"C": randf_range(1, 10),
-		"Ne": randf_range(1, 5),
-		"O": randf_range(1, 5),
-		"Fe": randf_range(0, 1),
-		"Si": randf_range(0, 1),
-	}
-	var sm = 0
-	for k in elements:
-		sm += elements[k]
-	for k in elements:
-		elements[k] = elements[k] / sm * mass
-	update_visual()
-
-func merge_elements(other: Star):
-	for i in other.elements:
-		if i not in elements:
-			elements[i] = 0
-		elements[i] += other.elements[i]
+func merge_age(other: Star):
+	age=(age*mass+other.age*other.mass)/(mass+other.mass)
 	update_visual()
 
 func split(split_mass: float) -> Star:
@@ -84,12 +63,7 @@ func split(split_mass: float) -> Star:
 	new_star.position = position + Vector2(radius_sum * 1.5, 0).rotated(rand_angle)
 	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * randf_range(0, 1) + (mass + split_mass) * 10, 0).rotated(rand_angle)
 	
-	# 按比例分配元素
-	new_star.elements = {}
-	for k in elements:
-		var portion = elements[k] * (split_mass / (mass + split_mass))
-		new_star.elements[k] = portion
-		elements[k] -= portion
+	new_star.age=age
 	update_visual()
 	new_star.update_visual()
 
@@ -102,9 +76,8 @@ func update_visual():
 	$Sprite.scale = Vector2(1, 1) * radius / ($Sprite.texture.get_height() / 2)
 	$Collision.shape.radius = radius
 
-	if "H" in elements and "He" in elements:
-		#print(color_ramp.sample(1 - elements["H"] / mass))
-		$Sprite.self_modulate = color_ramp.sample(1 - elements["H"] / mass)
+	
+	$Sprite.self_modulate = color_ramp.sample(age)
 
 func merge_features(other: Star) -> void:
 	for f in other.features:
@@ -130,7 +103,7 @@ func merge(other: Star) -> void:
 	position = (other.position * other.mass + position * mass) / total_mass
 
 	self.update_mass(mass + other.mass)
-	self.merge_elements(other)
+	self.merge_age(other)
 	self.merge_features(other)
 	other.queue_free()
 	merge_count += 1

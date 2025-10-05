@@ -12,6 +12,7 @@ Cannot be collected. How did it get here?
 
 var cooldown = 5.0
 var timer = 0.0
+var father = null
 
 static func mergeable() -> bool:
 	return false
@@ -25,7 +26,7 @@ func crash(other: Star) -> bool:
 	print("Bullet crash detected")
 	if timer > 0:
 		return false
-	if other.mass < star.mass:
+	if other.mass < star.mass or other == father:
 		return false
 	else:
 		timer = cooldown

@@ -7,10 +7,11 @@ var interval = 3.0
 var timer = 0.0
 
 static func get_feature_name() -> String:
-	return "Gunner"
+	return "Coronal Ejection"
 static func get_feature_desc() -> String:
 	return """
-Generate a Bullet every few seconds. When Bullet hits a target, it deals damage to it.
+Eject a small portion of own mass every few seconds. 
+When Ejecta hits a target, it may break it.
 Can be found in the wild with a small chance.
 	"""
 
@@ -27,7 +28,8 @@ func shoot(direction: Vector2) -> void:
 	star.add_ignore_gravity(bullet, 5)
 
 	bullet.linear_velocity = direction.normalized() * 600
-	bullet_script.new(bullet, 1)
+	var bullet_feature = bullet_script.new(bullet, 1)
+	bullet_feature.father = star
 
 func process(delta: float) -> void:
 	timer -= delta
@@ -52,5 +54,5 @@ func draw() -> void:
 	# debug
 	star.draw_circle(Vector2.ZERO, star.get_radius() + 15, Color(1, 1, 0, 0.5))
 
-static func generate_weight(stars: Array[Node], player: PlayerStar, st: Star) -> float:
+static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.02
