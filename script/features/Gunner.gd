@@ -7,10 +7,11 @@ var interval = 3.0
 var timer = 0.0
 
 static func get_feature_name() -> String:
-	return "Gunner"
+	return "Coronal Ejection"
 static func get_feature_desc() -> String:
 	return """
-Generate a Bullet every few seconds. When Bullet hits a target, it deals damage to it.
+Eject a small portion of own mass every few seconds. 
+When Ejecta hits a target, it may break it.
 Can be found in the wild with a small chance.
 	"""
 
