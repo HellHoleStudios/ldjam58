@@ -33,4 +33,4 @@ static func mergeable() -> bool:
 	return true
 
 static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
-	return 100
+	return 0
