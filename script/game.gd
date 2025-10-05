@@ -78,7 +78,7 @@ func generate_stars():
 				var mass = randf_range(0.1 * $player.mass, 1.5 * $player.mass)
 				var star = spawn_star_displayer(pos, mass)
 				set_star_features(star)
-				area_accum -= mass * density
+				area_accum -= mass * density * 30
 	
 	last_player_pos = player_pos
 
