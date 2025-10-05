@@ -125,11 +125,11 @@ func update_star_forces():
 			var force = calc_star_force(star_a, star_b)
 			if force.is_zero_approx():
 				continue
-			star_a.apply_central_impulse(force)
-			star_b.apply_central_impulse(-force)
+			star_a.apply_central_force(force)
+			star_b.apply_central_force(-force)
 
 func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
-	var G = 1000 # 引力常数，可调整
+	var G = 100000 # 引力常数，可调整
 	var dir = star_b.get_sprite().global_position - star_a.get_sprite().global_position
 	var dist_sq = dir.length_squared()
 	if dist_sq == 0:
