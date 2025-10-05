@@ -27,10 +27,16 @@ func _process(delta: float) -> void:
 	if get_child_count() == 0:
 		init()
 	
-	for i: StarFeature in %player.features:
-		get_node(i.get_feature_name()).add_theme_color_override("font_color", Color.GREEN)
-		get_node(i.get_feature_name()).add_theme_color_override("font_focus_color", Color.GREEN) # Fuck here too
-		
+	for i:StarFeature in %player.features:
+		var l:Button=get_node(i.get_feature_name())
+		l.add_theme_color_override("font_color",Color.GREEN)
+		l.add_theme_color_override("font_focus_color",Color.GREEN) # Fuck here too
+		l.text=i.get_feature_name()+" "+to_roman(i.level)
+
+func to_roman(l):
+	if l>10:
+		return "Lv."+l
+	return ["","I","II","III","IV","V","VI","VII","VIII","IX","X"][l]
 
 func _on_window_close_requested() -> void:
 	$"../Window".hide()
