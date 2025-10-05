@@ -16,7 +16,6 @@ colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xlg7c"]
 width = 2048
 height = 2048
-generate_mipmaps = false
 noise = SubResource("FastNoiseLite_p1ry8")
 color_ramp = SubResource("Gradient_5kiuu")
 seamless = true
@@ -30,7 +29,7 @@ script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="." node_paths=PackedStringArray("camera")]
 z_index = -1000
-texture_filter = 1
+texture_filter = 4
 texture_repeat = 3
 position = Vector2(0, 1)
 texture = SubResource("NoiseTexture2D_xlg7c")
