@@ -1,9 +1,13 @@
 extends Node2D
 class_name Game
 static var instance: Game
+
+signal init_features_finished
+
 func _ready() -> void:
 	instance = self
 	init_features()
+	init_features_finished.emit()
 
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
@@ -52,7 +56,7 @@ func generate_stars():
 		var density = boundary_radius * boundary_radius / density_ratio
 		var spawn_count = int(area_accum / density)
 		
-		print(spawn_count)
+		#print(spawn_count)
 		for i in range(spawn_count):
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
@@ -82,7 +86,7 @@ func generate_stars():
 var features = []
 func init_features():
 	features = []
-	var dir = DirAccess.open("res://script/features")
+	var dir = DirAccess.open("res://script/features") # FIXME according to doc this is not correct.
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
