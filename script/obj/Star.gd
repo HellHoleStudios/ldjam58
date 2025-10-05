@@ -49,7 +49,7 @@ func get_sprite() -> Sprite2D:
 	return $Sprite
 
 func merge_age(other: Star):
-	age=(age*mass+other.age*other.mass)/(mass+other.mass)
+	age = (age * mass + other.age * other.mass) / (mass + other.mass)
 	update_visual()
 
 func split(split_mass: float) -> Star:
@@ -63,7 +63,7 @@ func split(split_mass: float) -> Star:
 	new_star.position = position + Vector2(radius_sum * 1.01, 0).rotated(rand_angle)
 	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * randf_range(0, 1) + radius_sum * 10, 0).rotated(rand_angle)
 	
-	new_star.age=age
+	new_star.age = age
 	update_visual()
 	new_star.update_visual()
 
@@ -200,11 +200,13 @@ func update_ignore_gravity(delta: float):
 	var to_remove = []
 	for star in IgnoreGravity.keys():
 		if not is_instance_valid(star):
-			to_remove.append(star)
+			if star not in to_remove:
+				to_remove.append(star)
 			continue
 		IgnoreGravity[star] -= delta
 		if IgnoreGravity[star] <= 0:
-			to_remove.append(star)
+			if star not in to_remove:
+				to_remove.append(star)
 	for star in to_remove:
 		IgnoreGravity.erase(star)
 
