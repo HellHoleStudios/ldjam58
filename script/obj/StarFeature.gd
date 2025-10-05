@@ -32,5 +32,5 @@ func crash(other: Star) -> bool:
 static func mergeable() -> bool:
 	return true
 
-static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
+static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0

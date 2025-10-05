@@ -109,16 +109,17 @@ func set_star_features(star: Star):
 	# 给新生成的star添加features
 	var total_weight = 1 # 正常star权重为1
 	for feature_script in features:
-		var weight = feature_script.generate_weight(stars.get_children(), $player)
+		var weight = feature_script.generate_weight(stars.get_children(), $player, star)
 		total_weight += weight
 	var rand_val = randf() * total_weight
 	if rand_val < 1:
 		return # 不添加任何feature
 	rand_val -= 1
 	for feature_script in features:
-		var weight = feature_script.generate_weight(stars.get_children(), $player)
+		var weight = feature_script.generate_weight(stars.get_children(), $player, star)
 		if rand_val < weight:
 			var feature_instance = feature_script.new(star, 1)
+		rand_val -= weight
 
 func update_star_forces():
 	# 所有stars内的BaseStarData再加上玩家的BaseStarData
