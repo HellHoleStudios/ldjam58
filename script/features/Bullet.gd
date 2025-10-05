@@ -33,6 +33,6 @@ func crash(other: Star) -> bool:
 		var damage = star.mass
 		other.merge(star)
 		for i in range(3):
-			other.split(min(other.mass * 0.5, damage * 0.8))
+			other.split(min(other.mass * 0.5, damage * 8))
 		
 		return true
