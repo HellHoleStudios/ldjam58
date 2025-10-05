@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 
 func to_roman(l):
 	if l>10:
-		return "Lv."+l
+		return "Lv."+str(l)
 	return ["","I","II","III","IV","V","VI","VII","VIII","IX","X"][l]
 
 func _on_window_close_requested() -> void:

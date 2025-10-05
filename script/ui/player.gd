@@ -21,6 +21,10 @@ func _ready() -> void:
 func _physics_process(delta):
 	super (delta)
 	
+	# 0. Speed
+	speed = 1000 / $Sprite/Camera2D.zoom.x
+	acceleration = 500 / $Sprite/Camera2D.zoom.x
+	
 	# 1. Get the player input direction
 	var input_direction = Input.get_vector("A", "D", "W", "S").normalized()
 	
