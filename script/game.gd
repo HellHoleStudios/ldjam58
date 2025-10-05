@@ -42,7 +42,7 @@ func clean_up_stars():
 	# 检查所有star_displayer是否在圆形边界内
 	for star in stars.get_children():
 		var pos = star.position
-		if pos.distance_to(player_pos) > boundary_radius:
+		if pos.distance_to(player_pos) > 2*boundary_radius:
 			star.queue_free()
 
 func generate_stars():
@@ -54,9 +54,9 @@ func generate_stars():
 		area_accum += ring_area
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
-		var spawn_count = int(area_accum / density)
+		var spawn_count = min(200,int(area_accum / density))
 		
-		#print(spawn_count)
+		print(spawn_count,"now=",$stars.get_child_count())
 		for i in range(spawn_count):
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
@@ -76,8 +76,7 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				var layer = get_layer(pos)
-				var star = spawn_star_displayer(pos, min(10 ** 7, randf_range(0.1 * 2.0 ** layer, 1.9 * (2.0 ** layer))))
+				var star = spawn_star_displayer(pos, randf_range(0.1*$player.mass, 1.5*$player.mass))
 				set_star_features(star)
 		area_accum -= spawn_count * density
 	

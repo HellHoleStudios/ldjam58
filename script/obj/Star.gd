@@ -125,6 +125,7 @@ func _on_body_entered(body: Node) -> void:
 				
 			if star is not PlayerStar:
 				merge(star)
+				#print("Merged: new size=",mass, "Size=",Game.instance.stars.get_child_count())
 			else:
 				var CRASH_SPEED = 50
 				if (star.linear_velocity - linear_velocity).length() > CRASH_SPEED: # 临界速度可调
