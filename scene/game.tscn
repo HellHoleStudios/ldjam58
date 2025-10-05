@@ -6,9 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
 [ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
-[ext_resource type="Script" uid="uid://djj4uu5sd252i" path="res://script/camera.gd" id="5_qpk70"]
-[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
-[ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
+[ext_resource type="Script" path="res://script/ui/camera.gd" id="5_qpk70"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -31,6 +29,7 @@ texture_filter = 2
 script = ExtResource("1_dbls1")
 
 [node name="bg" type="Sprite2D" parent="." node_paths=PackedStringArray("camera")]
+z_index = -1000
 texture_filter = 1
 texture_repeat = 3
 position = Vector2(0, 1)

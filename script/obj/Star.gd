@@ -6,6 +6,7 @@ extends RigidBody2D
 var elements: Dictionary
 var merge_count: int
 var color_ramp = preload("res://partial/star_color.tres")
+var explosion_scene=preload("res://partial/explosion.tscn")
 
 var features: Array[StarFeature] = []
 
@@ -16,7 +17,7 @@ var features: Array[StarFeature] = []
 	#update_visual()
 
 func _ready() -> void:
-	$Collision.shape = CircleShape2D.new()
+	#$Collision.shape = CircleShape2D.new()
 	update_visual()
 
 	contact_monitor = true
@@ -143,6 +144,11 @@ func _on_body_entered(body: Node) -> void:
 						print(mass * masse_ratios[i] / sum)
 						split(mass * masse_ratios[i] / sum)
 					star.linear_velocity *= -0.5
+					var explosion:Sprite2D=explosion_scene.instantiate()
+					get_tree().current_scene.add_child(explosion)
+					explosion.global_position=global_position
+					var explosion_scale=get_radius()/20
+					explosion.scale=Vector2(explosion_scale,explosion_scale)
 				else:
 					var BOUNCE_FACTOR = 20
 					var dir = (star.position - position).normalized()
