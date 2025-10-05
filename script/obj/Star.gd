@@ -7,6 +7,8 @@ var elements: Dictionary
 var merge_count: int
 var color_ramp = preload("res://partial/star_color.tres")
 
+var features: Array[StarFeature] = []
+
 #func _init(_mass: float = 1.0):
 	#self.mass=_mass
 	#
@@ -20,6 +22,10 @@ func _ready() -> void:
 	contact_monitor = true
 	max_contacts_reported = 4
 	merge_count = 0
+
+func _process(delta: float) -> void:
+	for f in features:
+		f.process(delta)
 
 func _physics_process(delta: float) -> void:
 	rotation = 0
@@ -35,10 +41,10 @@ func get_sprite() -> Sprite2D:
 	return $Sprite
 
 func randomize_elements():
-	var h=randf_range(30, 80)
+	var h = randf_range(30, 80)
 	elements = {
 		"H": h,
-		"He": 90-h,
+		"He": 90 - h,
 		"C": randf_range(1, 10),
 		"Ne": randf_range(1, 5),
 		"O": randf_range(1, 5),
@@ -88,24 +94,37 @@ func update_visual():
 	if "H" in elements and "He" in elements:
 		print(color_ramp.sample(1 - elements["H"] / mass))
 		$Sprite.self_modulate = color_ramp.sample(1 - elements["H"] / mass)
-	
+
+func merge_features(other: Star) -> void:
+	for f in other.features:
+		var found = false
+		for i in range(features.size()):
+			if features[i].get_class() == f.get_class():
+				features[i].merge(f)
+				found = true
+				break
+		if not found:
+			f.init(self, f.level)
+
+func merge(other: Star) -> void:
+	# 动量守恒
+	var total_mass = other.mass + mass
+	var new_velocity = (other.linear_velocity * other.mass + linear_velocity * mass) / total_mass
+	linear_velocity = new_velocity
+	# 位置移到重心
+	position = (other.position * other.mass + position * mass) / total_mass
+
+	self.update_mass(mass + other.mass)
+	self.merge_elements(other)
+	self.merge_features(other)
+	other.queue_free()
 	
 func _on_body_entered(body: Node) -> void:
 	if body is Star:
 		var star: Star = body
 		if star.get_mass() < mass:
 			if star is not PlayerStar:
-				# 动量守恒
-				var total_mass = star.mass + mass
-				var new_velocity = (star.linear_velocity * star.mass + linear_velocity * mass) / total_mass
-				linear_velocity = new_velocity
-				# 位置移到重心
-				position = (star.position * star.mass + position * mass) / total_mass
-
-				self.update_mass(star.mass + mass)
-				self.merge_elements(star)
-				star.queue_free()
-				print("Sucked!!! New mass:", mass)
+				merge(star)
 				merge_count += 1
 			else:
 				var CRASH_SPEED = 50

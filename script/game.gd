@@ -3,6 +3,7 @@ class_name Game
 static var instance: Game
 func _ready() -> void:
 	instance = self
+	init_features()
 
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
@@ -41,8 +42,6 @@ func clean_up_stars():
 			star.queue_free()
 
 func generate_stars():
-	
-	
 	# 计算新旧圆环区域面积
 	var move_dist = player_pos.distance_to(last_player_pos)
 	if move_dist > 0:
@@ -73,11 +72,43 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				var layer=get_layer(pos)
-				spawn_star_displayer(pos, min(10**7,randf_range(0.1*2.0**layer, 1.9*(2.0**layer))))
+				var layer = get_layer(pos)
+				var star = spawn_star_displayer(pos, min(10 ** 7, randf_range(0.1 * 2.0 ** layer, 1.9 * (2.0 ** layer))))
+				set_star_features(star)
 		area_accum -= spawn_count * density
 	
 	last_player_pos = player_pos
+
+var features = []
+func init_features():
+	features = []
+	var dir = DirAccess.open("res://script/features")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".gd"):
+				var path = "res://script/features/" + file_name
+				var feature_script = load(path)
+				if feature_script:
+					features.append(feature_script)
+			file_name = dir.get_next()
+		dir.list_dir_end()
+
+func set_star_features(star: Star):
+	# 给新生成的star添加features
+	var total_weight = 1 # 正常star权重为1
+	for feature_script in features:
+		var weight = feature_script.generate_weight(stars.get_children(), $player)
+		total_weight += weight
+	var rand_val = randf() * total_weight
+	if rand_val < 1:
+		return # 不添加任何feature
+	rand_val -= 1
+	for feature_script in features:
+		var weight = feature_script.generate_weight(stars.get_children(), $player)
+		if rand_val < weight:
+			var feature_instance = feature_script.new(star, 1)
 
 func update_star_forces():
 	# 所有stars内的BaseStarData再加上玩家的BaseStarData
@@ -103,7 +134,7 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	var dist_sq = dir.length_squared()
 	if dist_sq == 0:
 		return Vector2.ZERO
-	if dist_sq > MAX_GRAVITY_DIST / (($player/Sprite/Camera2D.zoom.x)**2):
+	if dist_sq > MAX_GRAVITY_DIST / (($player/Sprite/Camera2D.zoom.x) ** 2):
 		return Vector2.ZERO
 	var min_dist = star_a.get_radius() + star_b.get_radius()
 	min_dist *= 1.5
@@ -118,7 +149,7 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 static var star_partial = preload("res://partial/star_displayer.tscn")
 
 static func get_layer(loc: Vector2) -> int:
-	return ceil(loc.length()/2500)
+	return ceil(loc.length() / 2500)
 
 # 生成star_displayer的函数（需根据实际项目实现）
 static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vector2 = Vector2.ZERO):
