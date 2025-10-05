@@ -136,8 +136,17 @@ func update_star_forces():
 			var force = star_a.calc_star_force(star_b)
 			if force.is_zero_approx():
 				continue
-			star_a.apply_central_force(force)
-			star_b.apply_central_force(-force)
+			
+			if star_a is PlayerStar:
+				star_a.apply_central_force(force/5)
+			else:
+				star_a.apply_central_force(force)
+			
+			if star_b is PlayerStar:
+				star_b.apply_central_force(-force/5)
+			else:
+				star_b.apply_central_force(-force)
+			#star_b.apply_central_force(-force)
 
 static var star_partial = preload("res://partial/star_displayer.tscn")
 
