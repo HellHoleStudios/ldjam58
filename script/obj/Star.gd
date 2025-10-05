@@ -29,7 +29,6 @@ func update_mass(_mass: float):
 	update_visual()
 
 func get_radius() -> float:
-	print(mass, sqrt(mass) * 3)
 	return sqrt(mass) * 3
 
 func get_sprite() -> Sprite2D:
@@ -67,8 +66,8 @@ func split(split_mass: float) -> Star:
 	var radius_sum = get_radius() + new_star.get_radius()
 	# 位置稍微偏移，防止重叠
 	var rand_angle = randf() * PI * 2
-	new_star.position = position + Vector2(radius_sum * 1.1, 0).rotated(rand_angle)
-	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * 1, 0).rotated(rand_angle + PI / 2)
+	new_star.position = position + Vector2(radius_sum * 1.2, 0).rotated(rand_angle)
+	new_star.linear_velocity = linear_velocity + Vector2(linear_velocity.length() * randf_range(0, 1) + radius_sum * 20, 0).rotated(rand_angle + PI / 2)
 	
 	# 按比例分配元素
 	new_star.elements = {}
@@ -95,13 +94,36 @@ func _on_body_entered(body: Node) -> void:
 		var star: Star = body
 		if star.get_mass() < mass:
 			if star is not PlayerStar:
+				# 动量守恒
+				var total_mass = star.mass + mass
+				var new_velocity = (star.linear_velocity * star.mass + linear_velocity * mass) / total_mass
+				linear_velocity = new_velocity
+				# 位置移到重心
+				position = (star.position * star.mass + position * mass) / total_mass
+
 				self.update_mass(star.mass + mass)
 				self.merge_elements(star)
 				star.queue_free()
 				print("Sucked!!! New mass:", mass)
 				merge_count += 1
 			else:
-				if (star.linear_velocity - linear_velocity).length() < 20: # 临界速度可调
+				var CRASH_SPEED = 50
+				if (star.linear_velocity - linear_velocity).length() > CRASH_SPEED: # 临界速度可调
+					print("split")
+					linear_velocity = star.linear_velocity * 2
+					# 分裂成多个碎块
+					var split_num = min(int((star.linear_velocity - linear_velocity).length() / CRASH_SPEED * 0.5) + randi_range(2, 4), 10) + 8
+					# 碎块质量随机分配
+					var masse_ratios = []
+					var sum = 0
+					for i in range(split_num):
+						masse_ratios.append(randf_range(1, 10))
+						sum += masse_ratios[i]
+					for i in range(split_num):
+						print(mass * masse_ratios[i] / sum)
+						split(mass * masse_ratios[i] / sum)
+					star.linear_velocity *= -0.5
+				else:
 					var BOUNCE_FACTOR = 20
 					var dir = (star.position - position).normalized()
 					# 连线方向上的分速度设为0
@@ -110,21 +132,3 @@ func _on_body_entered(body: Node) -> void:
 					var v = dir * proj * BOUNCE_FACTOR / (star.mass + mass)
 					star.linear_velocity -= v * mass
 					linear_velocity += v * star.mass
-				else:
-					print("split")
-					linear_velocity = star.linear_velocity * 2
-					# 分裂成多个碎块
-					var split_num = int((star.linear_velocity - linear_velocity).length() / 20) + randi_range(0, 2)
-					# 碎块质量随机分配
-					var masse_ratios = []
-					var sum = 0
-					for i in range(split_num):
-						masse_ratios.append(randf_range(0, 1))
-						sum += masse_ratios[i]
-					for i in range(split_num):
-						print(star.mass * masse_ratios[i] / sum)
-						split(star.mass * masse_ratios[i] / sum)
-					var rand_angle = randf() * PI * 2
-					linear_velocity = linear_velocity + Vector2(linear_velocity.length() * 2, 0).rotated(rand_angle + PI / 2)
-
-					star.linear_velocity = Vector2.ZERO

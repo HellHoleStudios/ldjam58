@@ -65,7 +65,7 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				spawn_star_displayer(pos, randf_range(5, 15))
+				spawn_star_displayer(pos, randf_range(30, 45))
 		area_accum -= spawn_count * density
 	
 	last_player_pos = player_pos
