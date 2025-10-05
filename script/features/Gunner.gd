@@ -36,23 +36,35 @@ func process(delta: float) -> void:
 	if timer <= 0:
 		timer += interval
 		var bullet = Star.new()
-		
-		# 瞄准最近的更大星体
-		var target: Star = null
-		var min_dist = INF
-		for other in Game.get_all_stars():
-			if other is Star and other != star and other.mass > star.mass:
-				var dist = star.position.distance_to(other.position)
-				if dist < min_dist:
-					min_dist = dist
-					target = other
-		if target:
-			var direction = (target.position - star.position).normalized()
+
+		var direction: Vector2 = Vector2.ZERO
+		if star is not PlayerStar:
+			var target: Star = null
+			# 瞄准最近的更大星体
+			var min_dist = INF
+			for other in Game.get_all_stars():
+				if other is Star and other != star and other.mass > star.mass:
+					var dist = star.position.distance_to(other.position)
+					if dist < min_dist:
+						min_dist = dist
+						target = other
+			if target:
+				direction = (target.position - star.position).normalized()
+
+		else:
+			# 如果按下鼠标，向鼠标位置发射
+			print("Player shoot")
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				print("Mouse left clicked")
+				var mouse_pos = star.get_global_mouse_position()
+				direction = (mouse_pos - star.position).normalized()
+
+		if direction != Vector2.ZERO:
 			shoot(direction)
 
 func draw() -> void:
 	# debug
-	star.draw_circle(Vector2.ZERO, star.get_radius() + 15, Color(1, 1, 0, 0.5))
+	star.draw_circle(Vector2.ZERO, star.get_radius() * 1.1, Color(1, 1, 0, 0.5))
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.02
