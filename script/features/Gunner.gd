@@ -6,6 +6,15 @@ var bullet_script = preload("res://script/features/Bullet.gd")
 var interval = 3.0
 var timer = 0.0
 
+static func get_feature_name() -> String:
+	return "Gunner"
+static func get_feature_desc() -> String:
+	return """
+Generate a Bullet every few seconds. When Bullet hits a target, it deals damage to it.
+Can be found in the wild with a small chance.
+	"""
+
+
 func shoot(direction: Vector2) -> void:
 	var BULLET_MASS_RATIO = 0.2
 	var bullet = Game.spawn_star_displayer(star.position,

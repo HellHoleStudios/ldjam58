@@ -1,28 +1,37 @@
 extends StarFeature
 class_name Bullet
 
+static func get_feature_name() -> String:
+	return "Bullet"
+static func get_feature_desc() -> String:
+	return """
+When bullet hits a target, it deals damage to it.
+Cannot be collected. How did it get here?
+	"""
+
+
 var cooldown = 5.0
 var timer = 0.0
 
 func mergeable() -> bool:
-    return false
+	return false
 
 func process(delta: float) -> void:
-    timer -= delta
-    if timer < 0:
-        timer = 0
+	timer -= delta
+	if timer < 0:
+		timer = 0
 
 func crash(other: Star) -> bool:
-    print("Bullet crash detected")
-    if timer > 0:
-        return false
-    if other.mass < star.mass:
-        return false
-    else:
-        timer = cooldown
-        var damage = star.mass
-        other.merge(star)
-        for i in range(3):
-            other.split(min(other.mass * 0.5, damage * 0.8))
-        
-        return true
+	print("Bullet crash detected")
+	if timer > 0:
+		return false
+	if other.mass < star.mass:
+		return false
+	else:
+		timer = cooldown
+		var damage = star.mass
+		other.merge(star)
+		for i in range(3):
+			other.split(min(other.mass * 0.5, damage * 0.8))
+		
+		return true
