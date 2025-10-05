@@ -28,7 +28,7 @@ func _process(delta):
 	player_pos = $player.position
 	# 根据玩家能看到的范围确定boundary
 	boundary_radius = 1000 / ($player/Sprite/Camera2D.zoom.x)
-	density_ratio = 1000 / (($player/Sprite/Camera2D.zoom.x) ** 2)
+	density_ratio = 1000 / (($player/Sprite/Camera2D.zoom.x) ** 0.5)
 	
 	if not stars:
 		return

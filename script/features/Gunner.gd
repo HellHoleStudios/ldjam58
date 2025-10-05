@@ -7,7 +7,7 @@ var interval = 3.0
 var timer = 0.0
 
 static func get_feature_name() -> String:
-	return "Coronal Ejection"
+	return "Ejector"
 static func get_feature_desc() -> String:
 	return """
 Eject a small portion of own mass every few seconds. 
