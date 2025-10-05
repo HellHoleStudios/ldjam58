@@ -13,7 +13,7 @@ Cannot be collected. How did it get here?
 var cooldown = 5.0
 var timer = 0.0
 
-func mergeable() -> bool:
+static func mergeable() -> bool:
 	return false
 
 func process(delta: float) -> void:

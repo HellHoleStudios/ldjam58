@@ -53,4 +53,4 @@ func draw() -> void:
 	star.draw_circle(Vector2.ZERO, star.get_radius() + 15, Color(1, 1, 0, 0.5))
 
 static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
-	return 1
+	return 0.02

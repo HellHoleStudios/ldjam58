@@ -29,7 +29,7 @@ func merge(other: StarFeature) -> void:
 func crash(other: Star) -> bool:
 	return false
 
-func mergeable() -> bool:
+static func mergeable() -> bool:
 	return true
 
 static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
