@@ -10,7 +10,7 @@ var last_player_pos: Vector2 = Vector2.ZERO
 var boundary_radius: float = 1000 # 圆形边界半径，可调整
 var density_ratio: float = 1000 # 密度参数，越大生成越稠密
 var area_accum: float = 0.0 # 累计新区域面积
-const MAX_GRAVITY_DIST=500*500
+const MAX_GRAVITY_DIST = 500 * 500
 
 # stars节点引用（需在ready时获取或导出）
 @onready var stars = $stars
@@ -97,7 +97,7 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	if dist_sq > MAX_GRAVITY_DIST:
 		return Vector2.ZERO
 	var min_dist = star_a.get_radius() + star_b.get_radius()
-	min_dist*=1.5
+	min_dist *= 1.5
 	var dist = sqrt(dist_sq)
 	var force_mag = G * star_a.get_mass() * star_b.get_mass() / dist_sq
 	
@@ -109,10 +109,11 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 static var star_partial = preload("res://partial/star_displayer.tscn")
 # 生成star_displayer的函数（需根据实际项目实现）
 static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vector2 = Vector2.ZERO):
-	var star:Star = star_partial.instantiate()
+	var star: Star = star_partial.instantiate()
 	star.mass = mass
 	star.position = pos
 	star.linear_velocity = linear_velocity
 	star.randomize_elements()
 	
 	instance.stars.add_child(star)
+	return star
