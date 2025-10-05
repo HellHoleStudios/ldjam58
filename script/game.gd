@@ -13,7 +13,7 @@ func _ready() -> void:
 var player_pos: Vector2 = Vector2.ZERO
 var last_player_pos: Vector2 = Vector2.ZERO
 var boundary_radius: float = 2000 # 圆形边界半径，可调整
-var density_ratio: float = 1000 # 密度参数，越大生成越稠密
+var density_ratio: float = 0.1 # 密度参数，越大生成越稠密
 var area_accum: float = 0.0 # 累计新区域面积
 const MAX_GRAVITY_DIST = 500 * 500
 
@@ -28,7 +28,7 @@ func _process(delta):
 	player_pos = $player.position
 	# 根据玩家能看到的范围确定boundary
 	boundary_radius = 1000 / ($player/Sprite/Camera2D.zoom.x)
-	density_ratio = 1000 / (($player/Sprite/Camera2D.zoom.x)**2)
+	density_ratio = 1000 / (($player/Sprite/Camera2D.zoom.x) ** 2)
 	
 	if not stars:
 		return
@@ -42,7 +42,7 @@ func clean_up_stars():
 	# 检查所有star_displayer是否在圆形边界内
 	for star in stars.get_children():
 		var pos = star.position
-		if pos.distance_to(player_pos) > 2*boundary_radius:
+		if pos.distance_to(player_pos) > 2 * boundary_radius:
 			star.queue_free()
 
 func generate_stars():
@@ -54,10 +54,9 @@ func generate_stars():
 		area_accum += ring_area
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
-		var spawn_count = min(200,int(area_accum / density))
 		
-		print(spawn_count,"now=",$stars.get_child_count())
-		for i in range(spawn_count):
+		#print(spawn_count,"now=",$stars.get_child_count())
+		while area_accum >= 0:
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
 			var move_dir = move_vec.normalized() if move_dist > 0 else Vector2.RIGHT
@@ -76,9 +75,10 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				var star = spawn_star_displayer(pos, randf_range(0.1*$player.mass, 1.5*$player.mass))
+				var mass = randf_range(0.1 * $player.mass, 1.5 * $player.mass)
+				var star = spawn_star_displayer(pos, mass)
 				set_star_features(star)
-		area_accum -= spawn_count * density
+				area_accum -= mass * density
 	
 	last_player_pos = player_pos
 
@@ -138,12 +138,12 @@ func update_star_forces():
 				continue
 			
 			if star_a is PlayerStar:
-				star_a.apply_central_force(force/5)
+				star_a.apply_central_force(force / 5)
 			else:
 				star_a.apply_central_force(force)
 			
 			if star_b is PlayerStar:
-				star_b.apply_central_force(-force/5)
+				star_b.apply_central_force(-force / 5)
 			else:
 				star_b.apply_central_force(-force)
 			#star_b.apply_central_force(-force)
@@ -159,7 +159,7 @@ static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vec
 	star.mass = mass
 	star.position = pos
 	star.linear_velocity = linear_velocity
-	star.age=randf_range(0,0.8)
+	star.age = randf_range(0, 0.8)
 	
 	instance.stars.add_child(star)
 	return star
