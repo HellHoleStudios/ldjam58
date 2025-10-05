@@ -37,5 +37,5 @@ func process(delta: float) -> void:
 
 		timer -= interval
 
-static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
+static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.05
