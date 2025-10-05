@@ -119,6 +119,7 @@ func set_star_features(star: Star):
 		var weight = feature_script.generate_weight(stars.get_children(), $player, star)
 		if rand_val < weight:
 			var feature_instance = feature_script.new(star, 1)
+			return
 		rand_val -= weight
 
 func update_star_forces():

@@ -5,12 +5,15 @@ class_name PlayerStar
 @export var speed = 1000.0
 @export var acceleration = 500.0 # Higher value means faster acceleration/deceleration
 
+static var instance:PlayerStar
 
 func _ready() -> void:
 	self.mass = 10
+	self.instance=self
 	randomize_elements()
 
 	#print(contact_monitor)
+	print(contact_monitor)
 
 	super._ready()
 
