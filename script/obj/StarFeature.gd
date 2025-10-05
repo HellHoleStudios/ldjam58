@@ -15,6 +15,9 @@ func _init(_star: Star, _level: int):
 func process(delta: float) -> void:
     pass
 
+func draw() -> void:
+    pass
+
 func merge(other: StarFeature) -> void:
     level += other.level
 

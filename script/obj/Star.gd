@@ -27,6 +27,10 @@ func _process(delta: float) -> void:
 	for f in features:
 		f.process(delta)
 
+func _draw() -> void:
+	for f in features:
+		f.draw()
+
 func _physics_process(delta: float) -> void:
 	rotation = 0
 

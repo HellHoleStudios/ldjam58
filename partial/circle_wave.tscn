@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce8eg8ofrtg5f"]
+
+[ext_resource type="Texture2D" uid="uid://b7yvw4rox68ve" path="res://texture/circle_wave.png" id="1_1dacg"]
+[ext_resource type="Script" uid="uid://bmv1b7naoe6p2" path="res://script/obj/circle_wave.gd" id="2_klaq5"]
+
+[node name="CircleWave" type="Sprite2D"]
+texture = ExtResource("1_1dacg")
+script = ExtResource("2_klaq5")
