@@ -8,7 +8,7 @@ class_name PlayerStar
 
 func _ready() -> void:
 	self.mass = 10
-	randomize_elements()
+	self.age=randf_range(0,0.4)
 
 	#print(contact_monitor)
 
