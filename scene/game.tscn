@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=12 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
-[ext_resource type="Texture2D" uid="uid://cjov3jkh1ym6u" path="res://texture/circle.png" id="2_dbls1"]
 [ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
+[ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
 [ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
+[ext_resource type="Script" uid="uid://djj4uu5sd252i" path="res://script/camera.gd" id="5_qpk70"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -42,10 +43,11 @@ unique_name_in_owner = true
 script = ExtResource("1_5kiuu")
 
 [node name="Sprite" type="Sprite2D" parent="player"]
-texture = ExtResource("2_dbls1")
+texture = ExtResource("4_xlg7c")
 
 [node name="Camera2D" type="Camera2D" parent="player/Sprite"]
 limit_enabled = false
+script = ExtResource("5_qpk70")
 
 [node name="Collision" type="CollisionShape2D" parent="player"]
 shape = SubResource("CircleShape2D_5kiuu")

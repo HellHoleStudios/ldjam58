@@ -35,9 +35,10 @@ func get_sprite() -> Sprite2D:
 	return $Sprite
 
 func randomize_elements():
+	var h=randf_range(30, 80)
 	elements = {
-		"H": randf_range(50, 100),
-		"He": randf_range(20, 50),
+		"H": h,
+		"He": 90-h,
 		"C": randf_range(1, 10),
 		"Ne": randf_range(1, 5),
 		"O": randf_range(1, 5),
