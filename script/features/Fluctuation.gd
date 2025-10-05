@@ -18,7 +18,7 @@ func process(delta: float) -> void:
 		star.add_child(wave)
 		wave.position = Vector2.ZERO
 
-		for other_star in Game.instance.stars.get_children():
+		for other_star in Game.get_all_stars():
 			if other_star is not Star or other_star == star or other_star.mass < star.mass:
 				continue
 			var dist = star.position.distance_to(other_star.position)

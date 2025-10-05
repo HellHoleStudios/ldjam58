@@ -10,12 +10,12 @@ func _ready() -> void:
 	self.mass = 10
 	randomize_elements()
 
-	print(contact_monitor)
+	#print(contact_monitor)
 
 	super._ready()
 
 func _physics_process(delta):
-	super(delta)
+	super (delta)
 	
 	# 1. Get the player input direction
 	var input_direction = Input.get_vector("A", "D", "W", "S").normalized()
@@ -30,10 +30,16 @@ func _physics_process(delta):
 	# This is the key to smooth movement.
 	# For RigidBody2D, we set the linear_velocity directly
 
-	var diff=target_velocity-linear_velocity
+	var diff = target_velocity - linear_velocity
 	if not diff.is_zero_approx():
-		var mag=diff.length()
-		diff=diff.normalized()
-		mag=clampf(mag,0,acceleration*delta)
-		diff*=mag
-		linear_velocity+=diff
+		var mag = diff.length()
+		diff = diff.normalized()
+		mag = clampf(mag, 0, acceleration * delta)
+		diff *= mag
+		linear_velocity += diff
+
+func _process(delta):
+	super._process(delta)
+
+func _draw() -> void:
+	super._draw()

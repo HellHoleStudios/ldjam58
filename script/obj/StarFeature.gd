@@ -6,7 +6,7 @@ var level: int
 func init(_star: Star, _level: int) -> void:
     star = _star
     level = _level
-    star.features.append(self)
+    _star.features.append(self)
 
 func _init(_star: Star, _level: int):
     init(_star, _level)
@@ -21,5 +21,11 @@ func draw() -> void:
 func merge(other: StarFeature) -> void:
     level += other.level
 
+func crash(other: Star) -> bool:
+    return false
+
+func mergeable() -> bool:
+    return true
+
 static func generate_weight(stars: Array[Node], player: PlayerStar) -> float:
-    return 100
+    return 0

@@ -8,7 +8,7 @@ func _ready() -> void:
 # 玩家位置和边界参数
 var player_pos: Vector2 = Vector2.ZERO
 var last_player_pos: Vector2 = Vector2.ZERO
-var boundary_radius: float = 1000 # 圆形边界半径，可调整
+var boundary_radius: float = 2000 # 圆形边界半径，可调整
 var density_ratio: float = 1000 # 密度参数，越大生成越稠密
 var area_accum: float = 0.0 # 累计新区域面积
 const MAX_GRAVITY_DIST = 500 * 500
@@ -52,7 +52,7 @@ func generate_stars():
 		var density = boundary_radius * boundary_radius / density_ratio
 		var spawn_count = int(area_accum / density)
 		
-		print(spawn_count)
+		#print(spawn_count)
 		for i in range(spawn_count):
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
@@ -95,6 +95,12 @@ func init_features():
 			file_name = dir.get_next()
 		dir.list_dir_end()
 
+static func get_feature(target_feature: StarFeature):
+	for feature_script in instance.features:
+		if typeof(target_feature) == TYPE_OBJECT and target_feature.get_script() == feature_script:
+			return feature_script
+	return null
+
 func set_star_features(star: Star):
 	# 给新生成的star添加features
 	var total_weight = 1 # 正常star权重为1
@@ -116,35 +122,17 @@ func update_star_forces():
 	var all_stars: Array = [player_star]
 	for star in stars.get_children():
 		all_stars.append(star)
-	
+
 	# 计算每对星体间的引力并应用
 	for i in range(all_stars.size()):
 		for j in range(i + 1, all_stars.size()):
 			var star_a: Star = all_stars[i]
 			var star_b: Star = all_stars[j]
-			var force = calc_star_force(star_a, star_b)
+			var force = star_a.calc_star_force(star_b)
 			if force.is_zero_approx():
 				continue
 			star_a.apply_central_force(force)
 			star_b.apply_central_force(-force)
-
-func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
-	var G = 100000 # 引力常数，可调整
-	var dir = star_b.get_sprite().global_position - star_a.get_sprite().global_position
-	var dist_sq = dir.length_squared()
-	if dist_sq == 0:
-		return Vector2.ZERO
-	if dist_sq > MAX_GRAVITY_DIST / (($player/Sprite/Camera2D.zoom.x) ** 2):
-		return Vector2.ZERO
-	var min_dist = star_a.get_radius() + star_b.get_radius()
-	min_dist *= 1.5
-	var dist = sqrt(dist_sq)
-	var force_mag = G * star_a.get_mass() * star_b.get_mass() / dist_sq
-	
-	if dist < min_dist:
-		#force_mag = (dist / min_dist) * (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
-		force_mag = (G * star_a.get_mass() * star_b.get_mass() / (min_dist * min_dist))
-	return dir.normalized() * force_mag
 
 static var star_partial = preload("res://partial/star_displayer.tscn")
 
@@ -161,3 +149,13 @@ static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vec
 	
 	instance.stars.add_child(star)
 	return star
+
+static func get_all_stars() -> Array:
+	var all_stars = []
+	for star in instance.stars.get_children():
+		if star == null:
+			continue
+		all_stars.append(star)
+	# 添加玩家
+	all_stars.append(instance.get_node("player"))
+	return all_stars
