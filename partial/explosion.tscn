@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dowj32g0xbbvu"]
+
+[ext_resource type="Texture2D" uid="uid://cgh7kir3a2lie" path="res://texture/explosion-nocolor.png" id="1_n8xd1"]
+[ext_resource type="Script" uid="uid://bsx807h30bqr4" path="res://script/explosion.gd" id="2_vw4s7"]
+
+[node name="Explosion" type="Sprite2D"]
+z_index = -1
+texture = ExtResource("1_n8xd1")
+script = ExtResource("2_vw4s7")
