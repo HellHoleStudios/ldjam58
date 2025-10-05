@@ -1,0 +1,73 @@
+extends StarFeature
+class_name Laser
+
+var timer = 0
+var interval = 2
+
+var particle: Line2D
+
+static func get_feature_name() -> String:
+	return "Laser"
+static func get_feature_desc() -> String:
+	return """
+Focus on nearest large star. If focused for long enough, break and split it.
+
+Generates after layer 8.
+	"""
+
+static var l=preload("res://partial/gas_line.tscn")
+
+var sucking:Star
+var timeout = 0.0
+
+func process(delta: float) -> void:
+	timeout -= delta
+	
+	var smallest_dist=1e9
+	var smallest_star:Star=null
+	for other_star in Game.instance.stars.get_children():
+		if other_star is not Star or other_star == star or other_star.mass<1:
+			continue
+		var os:Star=other_star
+		if os.mass>star.mass:
+			var dist = star.position.distance_to(other_star.position)
+			if dist<smallest_dist:
+				smallest_star=os
+				smallest_dist=dist
+	
+	if PlayerStar.instance.mass>star.mass:
+		var dist = star.position.distance_to(PlayerStar.instance.position)
+		if dist<smallest_dist:
+			smallest_dist=dist
+			smallest_star=PlayerStar.instance
+			
+	if particle==null:
+		particle=l.instantiate()
+		star.add_child(particle)
+		
+	if smallest_star==null or smallest_dist>star.get_radius()*20:
+		particle.visible=false
+		sucking=null
+		return
+	
+	var max_timeout = 3.0/level
+	if smallest_star!=sucking:
+		timeout = max_timeout
+	
+	sucking = smallest_star
+	
+	particle.visible=true
+	particle.points[1]=smallest_star.position-star.position
+	particle.width = 5
+	particle.default_color=Color.RED.lightened(timeout/max_timeout)
+	
+	if timeout<0 and sucking!=null:
+		sucking.split(sucking.mass/2)
+		sucking=null
+
+static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
+	#print(star)
+	if Game.get_layer(star.position)>=8:
+		#print("Indeed greater generate")
+		return 0.05
+	return 1
