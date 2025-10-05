@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Fluctuation"
 static func get_feature_desc() -> String:
 	return """
-Generate a fluctuation wave every once in a while that pushes large objects away.
+Generate a fluctuation wave every once in a while that pull smaller objects towards it.
 Can be found in the wild with a small chance.
 	"""
 
@@ -27,13 +27,13 @@ func process(delta: float) -> void:
 		wave.position = Vector2.ZERO
 
 		for other_star in Game.get_all_stars():
-			if other_star is not Star or other_star == star or other_star.mass < star.mass:
+			if other_star is not Star or other_star == star or other_star.mass > star.mass:
 				continue
 			var dist = star.position.distance_to(other_star.position)
 			if dist < affect_range:
 				var direction = (other_star.position - star.position).normalized()
-				var force_magnitude = 500 * other_star.mass
-				other_star.apply_central_impulse(direction * force_magnitude)
+				var force_magnitude = 30 * other_star.mass * star.get_radius()
+				other_star.apply_central_impulse(-direction * force_magnitude)
 
 		timer -= interval
 

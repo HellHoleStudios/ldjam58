@@ -11,7 +11,7 @@ func init(_final_scale: float = 1.0):
 
 func _process(delta):
 	elapsed += delta
-	var t = clamp(elapsed / duration, 0, 1)
+	var t = 1 - clamp(elapsed / duration, 0, 1)
 	scale = Vector2.ONE * final_scale * t
 	modulate.a = 1.0 - t
 	if t >= 1.0:

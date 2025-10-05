@@ -95,7 +95,7 @@ func merge_features(other: Star) -> void:
 			Game.get_feature(f).new(self, f.level)
 
 func merge(other: Star) -> void:
-	other.mass/=10
+	other.mass /= 3
 	
 	# 动量守恒
 	var total_mass = other.mass + mass
