@@ -21,6 +21,10 @@ func update_player_pos(new_pos: Vector2):
 
 func _process(delta):
 	player_pos = $player.position
+	# 根据玩家能看到的范围确定boundary
+	boundary_radius = 1000 / ($player/Sprite/Camera2D.zoom.x)
+	density_ratio = 1000 / ($player/Sprite/Camera2D.zoom.x)
+	
 	if not stars:
 		return
 	clean_up_stars()
@@ -37,6 +41,8 @@ func clean_up_stars():
 			star.queue_free()
 
 func generate_stars():
+	
+	
 	# 计算新旧圆环区域面积
 	var move_dist = player_pos.distance_to(last_player_pos)
 	if move_dist > 0:
@@ -46,6 +52,8 @@ func generate_stars():
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
 		var spawn_count = int(area_accum / density)
+		
+		print(spawn_count)
 		for i in range(spawn_count):
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
@@ -65,7 +73,8 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				spawn_star_displayer(pos, randf_range(30, 45))
+				var layer=get_layer(pos)
+				spawn_star_displayer(pos, min(10**7,randf_range(0.1*2.0**layer, 1.9*(2.0**layer))))
 		area_accum -= spawn_count * density
 	
 	last_player_pos = player_pos
@@ -94,7 +103,7 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	var dist_sq = dir.length_squared()
 	if dist_sq == 0:
 		return Vector2.ZERO
-	if dist_sq > MAX_GRAVITY_DIST:
+	if dist_sq > MAX_GRAVITY_DIST / (($player/Sprite/Camera2D.zoom.x)**2):
 		return Vector2.ZERO
 	var min_dist = star_a.get_radius() + star_b.get_radius()
 	min_dist *= 1.5
@@ -107,6 +116,10 @@ func calc_star_force(star_a: Star, star_b: Star) -> Vector2:
 	return dir.normalized() * force_mag
 
 static var star_partial = preload("res://partial/star_displayer.tscn")
+
+static func get_layer(loc: Vector2) -> int:
+	return ceil(loc.length()/2500)
+
 # 生成star_displayer的函数（需根据实际项目实现）
 static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vector2 = Vector2.ZERO):
 	var star: Star = star_partial.instantiate()

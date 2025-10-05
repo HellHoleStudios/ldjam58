@@ -14,4 +14,4 @@ func _process(delta: float) -> void:
 		#var noise_texture=texture as NoiseTexture2D
 		#var noise=noise_texture.noise as FastNoiseLite
 		#noise.offset=Vector3(camera_pos.x,camera_pos.y,0)
-		region_rect=Rect2(camera_pos,DisplayServer.window_get_size()*2)
+		region_rect=Rect2(camera_pos,DisplayServer.window_get_size()/camera.zoom.x)

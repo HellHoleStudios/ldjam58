@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
 [ext_resource type="Script" uid="uid://djj4uu5sd252i" path="res://script/camera.gd" id="5_qpk70"]
+[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -75,6 +77,14 @@ title = "Data"
 layout_mode = 2
 columns = 2
 script = ExtResource("5_p1ry8")
+
+[node name="LabelPos" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
+layout_mode = 2
+text = "Pos"
+
+[node name="Pos" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
+layout_mode = 2
+text = "0"
 
 [node name="LabelMerge" type="Label" parent="CanvasLayer/UIRoot/DataContainer/GridContainer"]
 layout_mode = 2
