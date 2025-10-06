@@ -2,6 +2,8 @@
 class_name Star
 extends RigidBody2D
 
+const SoundManager = preload("res://script/managers/SoundManager.gd")
+
 ## 类型为：（符号缩写，int）。符号缩写例如H、Fe
 var age: float
 var merge_count: int
@@ -180,6 +182,8 @@ func explode(star: Star, CRASH_SPEED = 50.0, affect_self = true):
 	explosion.global_position = global_position
 	var explosion_scale = get_radius() / 40
 	explosion.scale = Vector2(explosion_scale, explosion_scale)
+
+	SoundManager.instance.play_sound("res://sound/explosion.wav", 0.3)
 
 func calc_star_force(other: Star) -> Vector2:
 	if other.get_instance_id() in IgnoreGravity:

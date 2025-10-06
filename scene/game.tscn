@@ -1,14 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=15 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 [ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
 [ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
-[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
 [ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
 [ext_resource type="Script" uid="uid://b2bojqc03srss" path="res://script/ui/collection_container.gd" id="8_ll5lq"]
 [ext_resource type="Texture2D" uid="uid://cuxpgrm64au7k" path="res://texture/feature/Fluctuation.png" id="9_17rxn"]
+[ext_resource type="Script" uid="uid://dbpqsjdiq38hc" path="res://script/managers/SoundManager.gd" id="10_yq8tf"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -157,6 +158,9 @@ offset_right = 387.0
 offset_bottom = 387.0
 text = "Feature Description Goes Here!!!"
 autowrap_mode = 3
+
+[node name="SoundManager" type="Node2D" parent="."]
+script = ExtResource("10_yq8tf")
 
 [connection signal="body_entered" from="player" to="player" method="_on_body_entered"]
 [connection signal="close_requested" from="CanvasLayer/UIRoot/CollectionContainer/Window" to="CanvasLayer/UIRoot/CollectionContainer/VBoxContainer" method="_on_window_close_requested"]
