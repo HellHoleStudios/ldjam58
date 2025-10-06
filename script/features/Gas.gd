@@ -7,7 +7,7 @@ var interval = 2
 var particle: Line2D
 
 static func get_feature_name() -> String:
-	return "Gas"
+	return "Devour"
 static func get_feature_desc() -> String:
 	return """
 Steal mass from the closest medium star (1-1.5x mass) nearby.

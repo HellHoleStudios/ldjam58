@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q32msg7hrj7q"
-path="res://.godot/imported/Stasis.png-12957b5b036164efeeeabea069da0a48.ctex"
+uid="uid://db2wt8d8v7onx"
+path="res://.godot/imported/accretion.png-dc3ee8cecaa46523a1c99fbd67ee2a60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://texture/feature/Stasis.png"
-dest_files=["res://.godot/imported/Stasis.png-12957b5b036164efeeeabea069da0a48.ctex"]
+source_file="res://texture/accretion.png"
+dest_files=["res://.godot/imported/accretion.png-dc3ee8cecaa46523a1c99fbd67ee2a60.ctex"]
 
 [params]
 
