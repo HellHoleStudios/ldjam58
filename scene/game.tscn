@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 [ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
 [ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
-[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
 [ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
 [ext_resource type="Script" uid="uid://b2bojqc03srss" path="res://script/ui/collection_container.gd" id="8_ll5lq"]
@@ -64,9 +64,11 @@ shape = SubResource("CircleShape2D_5kiuu")
 
 [node name="UIRoot" type="Control" parent="CanvasLayer"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4_xwcet")
 
 [node name="DataContainer" type="FoldableContainer" parent="CanvasLayer/UIRoot"]
@@ -119,9 +121,9 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 925.0
+offset_left = -199.0
 offset_top = 19.0
-offset_right = 1081.0
+offset_right = -43.0
 offset_bottom = 296.0
 grow_horizontal = 0
 title = "Collection"
