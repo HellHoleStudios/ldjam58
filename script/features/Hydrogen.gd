@@ -5,7 +5,7 @@ static func get_feature_name() -> String:
 	return "Hydrogen"
 static func get_feature_desc() -> String:
 	return """
-Explode when colliding with another star. Causes massive damage.
+Explode when colliding with another star, causing massive damage to nearby stars.
 	"""
 
 var cooldown: float = 20
