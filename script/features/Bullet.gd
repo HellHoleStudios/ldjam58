@@ -23,7 +23,7 @@ func process(delta: float) -> void:
 		timer = 0
 
 func crash(other: Star) -> bool:
-	print("Bullet crash detected")
+	# print("Bullet crash detected")
 	if timer > 0:
 		return false
 	if other.mass < star.mass or other == father:
