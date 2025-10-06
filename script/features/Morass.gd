@@ -44,7 +44,7 @@ func process(delta: float) -> void:
 		if has_bullet:
 			continue
 		if other != star and other.get_position().distance_to(star.get_position()) < affect_range:
-			other.linear_velocity *= 0.97
+			other.linear_velocity *= 0.995
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.02
