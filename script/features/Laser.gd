@@ -57,7 +57,7 @@ func process(delta: float) -> void:
 		return
 	
 	# Target Changed
-	var max_timeout = max(0.5, 3.0/level)
+	var max_timeout = calc_max_timeout(level)
 	if smallest_star!=sucking:
 		timeout = max_timeout
 		SoundManager.instance.play_sound("res://sound/laser.wav",0.5,star.position)
@@ -76,6 +76,14 @@ func process(delta: float) -> void:
 		sucking.explode(star, 50.0, false)
 		sucking = null
 
+func calc_max_timeout(level:int)->float:
+	if level<=5:
+		return 3-level/5.0
+	elif level<=50:
+		return 2-(level-5)/45.0
+	else:
+		return max(0.5,50.0/level)
+		
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	#print(star)
 	if Game.get_layer(star.position) >= 8:
