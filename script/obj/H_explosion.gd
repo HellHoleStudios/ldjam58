@@ -14,5 +14,5 @@ func _process(delta):
 	var t = clamp(elapsed / duration, 0, 1)
 	scale = Vector2.ONE * final_scale * t
 	modulate.a = 1.0 - t
-	if t >= 1.0:
+	if elapsed >= duration:
 		queue_free()
