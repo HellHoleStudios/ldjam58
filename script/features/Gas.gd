@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Gas"
 static func get_feature_desc() -> String:
 	return """
-Steal mass from the closest small star nearby.
+Steal mass from the closest medium star (1-1.5x mass) nearby.
 Indicated by an orange(gaining mass)/cyan(losing mass) line.
 Generates after layer 5.
 	"""
@@ -28,13 +28,13 @@ func process(delta: float) -> void:
 		if other_star is not Star or other_star == star or other_star.mass < 1:
 			continue
 		var os: Star = other_star
-		if os.mass < star.mass * 0.75:
+		if star.mass < os.mass and os.mass < star.mass * 1.5:
 			var dist = star.position.distance_to(other_star.position)
 			if dist < smallest_dist:
 				smallest_star = os
 				smallest_dist = dist
 	
-	if PlayerStar.instance.mass < star.mass * 0.75:
+	if  star.mass < PlayerStar.instance.mass and PlayerStar.instance.mass < star.mass * 1.5:
 		var dist = star.position.distance_to(PlayerStar.instance.position)
 		if dist < smallest_dist:
 			smallest_dist = dist
@@ -50,7 +50,7 @@ func process(delta: float) -> void:
 	
 	particle.visible = true
 	particle.points[1] = smallest_star.position - star.position
-	particle.width = (sin(acc_delta * 2) * 2 + 5) * Game.instance.camera.zoom.x
+	particle.width = (sin(acc_delta * 2) * 2 + 5) / Game.instance.camera.zoom.x
 	
 	var steal = smallest_star.mass * (level / 10000.0)
 	
