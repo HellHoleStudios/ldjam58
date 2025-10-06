@@ -8,7 +8,7 @@ static func get_feature_name() -> String:
 	return "Sturdy"
 static func get_feature_desc() -> String:
 	return """
-The star can resist crash force and cannot split from crash.
+The star can resist crash force and cannot split from crash, but lose 1% mass.
 	"""
 
 func process(_delta: float) -> void: 
@@ -26,8 +26,14 @@ func crash(other: Star) -> bool:
 	else:
 		# 相互忽略0.2秒引力
 		var CRASH_SPEED = 50
-		if (other.linear_velocity - star.linear_velocity).length() > CRASH_SPEED && other is not PlayerStar: # 临界速度可调
-			other.explode(star, CRASH_SPEED)
+		if (other.linear_velocity - star.linear_velocity).length() > CRASH_SPEED && other is not PlayerStar:
+			var flag = true
+			for f in other.features:
+				if f is Stasis:
+					flag = false
+			if flag:
+				other.explode(star, CRASH_SPEED)
+		star.mass = star.mass * 0.99
 		star.add_ignore_gravity(other, 0.2)
 		other.add_ignore_gravity(star, 0.2)
 	return true
