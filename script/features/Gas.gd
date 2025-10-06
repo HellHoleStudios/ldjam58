@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Gas"
 static func get_feature_desc() -> String:
 	return """
-Steals mass from the closest small star nearby.
+Steal mass from the closest small star nearby.
 Indicated by an orange(gaining mass)/cyan(losing mass) line.
 Generates after layer 5.
 	"""

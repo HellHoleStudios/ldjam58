@@ -10,7 +10,7 @@ var explosion_scene = preload("res://partial/explosion.tscn")
 
 var features: Array[StarFeature] = []
 
-var IgnoreGravity: Dictionary[Star, float] = {}
+var IgnoreGravity: Dictionary[int, float] = {}
 
 #func _init(_mass: float = 1.0):
 	#self.mass=_mass
@@ -181,7 +181,7 @@ func explode(star: Star,CRASH_SPEED=50.0, affect_self = true):
 	explosion.scale = Vector2(explosion_scale, explosion_scale)
 
 func calc_star_force(other: Star) -> Vector2:
-	if other in IgnoreGravity:
+	if other.get_instance_id() in IgnoreGravity:
 		return Vector2.ZERO
 
 	var G = 100000 # 引力常数，可调整
@@ -202,17 +202,18 @@ func calc_star_force(other: Star) -> Vector2:
 
 func update_ignore_gravity(delta: float):
 	var to_remove = []
-	for star in IgnoreGravity.keys():
+	for star_id in IgnoreGravity.keys():
+		var star:Star=instance_from_id(star_id)
 		if not is_instance_valid(star):
-			if star not in to_remove:
-				to_remove.append(star)
+			if star_id not in to_remove:
+				to_remove.append(star_id)
 			continue
-		IgnoreGravity[star] -= delta
-		if IgnoreGravity[star] <= 0:
-			if star not in to_remove:
-				to_remove.append(star)
+		IgnoreGravity[star_id] -= delta
+		if IgnoreGravity[star_id] <= 0:
+			if star_id not in to_remove:
+				to_remove.append(star_id)
 	for star in to_remove:
 		IgnoreGravity.erase(star)
 
 func add_ignore_gravity(star: Star, duration: float):
-	IgnoreGravity[star] = duration
+	IgnoreGravity[star.get_instance_id()] = duration

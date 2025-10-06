@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Laser"
 static func get_feature_desc() -> String:
 	return """
-Focus on nearest large star. If focused for long enough, break and split it.
+Shoot a layer focused on the nearest large star. If focused for long enough, the laser breaks and splits it.
 Indicated by a green(player initiated)/red(enemy initiated) line.
 
 Generates after layer 8.

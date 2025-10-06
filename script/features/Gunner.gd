@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Ejector"
 static func get_feature_desc() -> String:
 	return """
-Eject a small portion of own mass by clicking [RIGHT MOUSE BUTTON]. 
+Eject a small portion of own mass by clicking [RIGHT MOUSE BUTTON] (or once in a while if the user is not a player). 
 When Ejecta hits a target, it may break the target.
 Can be found in the wild with a small chance.
 	"""

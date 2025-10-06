@@ -132,6 +132,7 @@ title = "INFORMATION"
 initial_position = 1
 size = Vector2i(400, 400)
 visible = false
+unresizable = true
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/UIRoot/CollectionContainer/Window"]
 offset_left = 11.0
