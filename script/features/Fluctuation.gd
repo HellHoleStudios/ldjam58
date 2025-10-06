@@ -29,11 +29,20 @@ func process(delta: float) -> void:
 		for other_star in Game.get_all_stars():
 			if other_star is not Star or other_star == star or other_star.mass > star.mass:
 				continue
-			var dist = star.position.distance_to(other_star.position)
+			var other: Star = other_star
+			# 遍历features，检查是否有Bullet且father是自己，不会影响到自己发射的子弹
+			var has_bullet = false
+			for f in other.features:
+				if f is Bullet and f.father == star:
+					has_bullet = true
+					break
+			if has_bullet:
+				continue
+			var dist = star.position.distance_to(other.position)
 			if dist < affect_range:
-				var direction = (other_star.position - star.position).normalized()
-				var force_magnitude = 30 * other_star.mass * star.get_radius()
-				other_star.apply_central_impulse(-direction * force_magnitude)
+				var direction = (other.position - star.position).normalized()
+				var force_magnitude = 30 * other.mass * star.get_radius()
+				other.apply_central_impulse(-direction * force_magnitude)
 
 		timer -= interval
 
