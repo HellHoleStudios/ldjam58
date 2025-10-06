@@ -5,7 +5,7 @@ static func get_feature_name() -> String:
 	return "Hydrogen"
 static func get_feature_desc() -> String:
 	return """
-Explode when colliding with another star. Causes massive damage.
+Explode when colliding with another star, causing massive damage to nearby stars.
 	"""
 
 var cooldown: float = 20
@@ -64,18 +64,22 @@ func crash(other: Star) -> bool:
 
 		var affect_range = star.get_radius() * affect_range_ratio
 
+		var flag = false
 		for other_star: Star in Game.get_all_stars():
-			if other_star != star and other_star.get_position().distance_to(star.get_position()) < affect_range:
+			if other_star != star and other_star.get_position().distance_to(star.get_position()) < affect_range and other_star.mass > star.mass * 0.8:
 				other_star.explode(star, 50, false)
+				flag = true
+		if flag:
+			var wave = H_explosion.instantiate()
+			wave.init(affect_range)
+			star.add_child(wave)
+			wave.position = Vector2.ZERO
 
-		var wave = H_explosion.instantiate()
-		wave.init(affect_range)
-		star.add_child(wave)
-		wave.position = Vector2.ZERO
+			circles.clear()
 
-		circles.clear()
-
-		return true
+			return true
+		else:
+			return false
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.05 # 需要更改
