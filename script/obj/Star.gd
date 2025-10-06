@@ -45,7 +45,7 @@ func update_mass(_mass: float):
 	update_visual()
 
 func get_radius() -> float:
-	return sqrt(mass) * 3
+	return min(1e6,sqrt(mass) * 3)
 
 func get_sprite() -> Sprite2D:
 	return $Sprite

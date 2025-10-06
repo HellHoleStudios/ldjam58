@@ -56,7 +56,7 @@ func generate_stars():
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
 		
-		#print(spawn_count,"now=",$stars.get_child_count())
+		print("now=",$stars.get_child_count())
 		while area_accum >= 0:
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
