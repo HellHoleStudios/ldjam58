@@ -10,8 +10,8 @@ static func get_feature_name() -> String:
 	return "Ejector"
 static func get_feature_desc() -> String:
 	return """
-Eject a small portion of own mass every few seconds. 
-When Ejecta hits a target, it may break it.
+Eject a small portion of own mass by clicking [RIGHT MOUSE BUTTON]. 
+When Ejecta hits a target, it may break the target.
 Can be found in the wild with a small chance.
 	"""
 
@@ -32,10 +32,21 @@ func shoot(direction: Vector2) -> void:
 	bullet_feature.father = star
 
 func process(delta: float) -> void:
+	
+	if star is PlayerStar:
+		var direction: Vector2 = Vector2.ZERO
+		if Input.is_action_just_pressed("Shoot"):
+			print("Mouse left clicked")
+			var mouse_pos = star.get_global_mouse_position()
+			direction = (mouse_pos - star.position).normalized()
+			if direction != Vector2.ZERO:
+				shoot(direction)
+		return
+	
 	timer -= delta
 	if timer <= 0:
 		timer += interval
-		var bullet = Star.new()
+		#var bullet = Star.new()
 
 		var direction: Vector2 = Vector2.ZERO
 		if star is not PlayerStar:
@@ -50,14 +61,6 @@ func process(delta: float) -> void:
 						target = other
 			if target:
 				direction = (target.position - star.position).normalized()
-
-		else:
-			# 如果按下鼠标，向鼠标位置发射
-			print("Player shoot")
-			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-				print("Mouse left clicked")
-				var mouse_pos = star.get_global_mouse_position()
-				direction = (mouse_pos - star.position).normalized()
 
 		if direction != Vector2.ZERO:
 			shoot(direction)

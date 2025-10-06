@@ -131,37 +131,7 @@ func _on_body_entered(body: Node) -> void:
 			else:
 				var CRASH_SPEED = 50
 				if (star.linear_velocity - linear_velocity).length() > CRASH_SPEED: # 临界速度可调
-					#print("split")
-					linear_velocity = star.linear_velocity * 2
-					# 分裂成多个碎块
-					var split_num = min(int((star.linear_velocity - linear_velocity).length() / CRASH_SPEED * 0.5) + randi_range(2, 4), 10) + 8
-					# 碎块质量随机分配
-					var masse_ratios = []
-					var sum = 0
-					for i in range(split_num):
-						masse_ratios.append(randf_range(1, 10))
-						sum += masse_ratios[i]
-
-					var fragments = [self]
-					for i in range(split_num):
-						#print(mass * masse_ratios[i] / sum)
-						var fragment = split(mass * masse_ratios[i] / sum)
-						if fragment:
-							fragments.append(fragment)
-					star.linear_velocity *= -0.5
-
-					# 碎片之间忽略0.2秒引力
-					for fragment_a in fragments:
-						for fragment_b in fragments:
-							if fragment_a == fragment_b:
-								continue
-							fragment_a.add_ignore_gravity(fragment_b, 0.2)
-
-					var explosion: Sprite2D = explosion_scene.instantiate()
-					get_tree().current_scene.add_child(explosion)
-					explosion.global_position = global_position
-					var explosion_scale = get_radius() / 40
-					explosion.scale = Vector2(explosion_scale, explosion_scale)
+					explode(star,CRASH_SPEED)
 				else:
 					var BOUNCE_FACTOR = 20
 					var dir = (star.position - position).normalized()
@@ -175,6 +145,40 @@ func _on_body_entered(body: Node) -> void:
 					# 相互忽略0.2秒引力
 					star.add_ignore_gravity(self, 0.2)
 					add_ignore_gravity(star, 0.2)
+
+func explode(star: Star,CRASH_SPEED=50.0, affect_self = true):
+	#print("split")
+	linear_velocity = star.linear_velocity * 2
+	# 分裂成多个碎块
+	var split_num = min(int((star.linear_velocity - linear_velocity).length() / CRASH_SPEED * 0.5) + randi_range(2, 4), 10) + 8
+	# 碎块质量随机分配
+	var masse_ratios = []
+	var sum = 0
+	for i in range(split_num):
+		masse_ratios.append(randf_range(1, 10))
+		sum += masse_ratios[i]
+
+	var fragments = [self]
+	for i in range(split_num):
+		#print(mass * masse_ratios[i] / sum)
+		var fragment = split(mass * masse_ratios[i] / sum)
+		if fragment:
+			fragments.append(fragment)
+	if affect_self:
+		star.linear_velocity *= -0.5
+
+	# 碎片之间忽略0.2秒引力
+	for fragment_a in fragments:
+		for fragment_b in fragments:
+			if fragment_a == fragment_b:
+				continue
+			fragment_a.add_ignore_gravity(fragment_b, 0.2)
+
+	var explosion: Sprite2D = explosion_scene.instantiate()
+	get_tree().current_scene.add_child(explosion)
+	explosion.global_position = global_position
+	var explosion_scale = get_radius() / 40
+	explosion.scale = Vector2(explosion_scale, explosion_scale)
 
 func calc_star_force(other: Star) -> Vector2:
 	if other in IgnoreGravity:

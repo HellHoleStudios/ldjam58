@@ -75,8 +75,8 @@ func generate_stars():
 
 			# 只生成在新圆环区域（即距离last_player_pos > boundary_radius）
 			if pos.distance_to(last_player_pos) > boundary_radius:
-				var mass = randf_range(0.1 * $player.mass, 1.5 * $player.mass)
-				var star = spawn_star_displayer(pos, mass)
+				var mass=randf_range(0.1*$player.mass, 3*$player.mass)
+				var star = spawn_star_displayer(pos, mass )
 				set_star_features(star)
 				area_accum -= (mass ** 0.5) * density * 30
 	
