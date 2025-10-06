@@ -11,6 +11,7 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 Generate a fluctuation wave every once in a while that pulls smaller objects towards the user.
+Indicated by a blue wave.
 Can be found in the wild with a small chance.
 	"""
 

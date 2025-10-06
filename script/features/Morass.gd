@@ -7,6 +7,8 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 Creates an accretion disk that slows down nearby stars.
+Indicated by a red rotating field.
+
 Can be found in the wild with a small chance.
 """
 
