@@ -24,6 +24,7 @@ var timeout = 0.0
 func process(delta: float) -> void:
 	timeout -= delta
 	
+	# Find Target
 	var smallest_dist = 1e9
 	var smallest_star: Star = null
 	for other_star in Game.instance.stars.get_children():
@@ -41,21 +42,25 @@ func process(delta: float) -> void:
 		if dist < smallest_dist:
 			smallest_dist = dist
 			smallest_star = PlayerStar.instance
-			
+	
+	# First time using laser.
 	if particle == null:
 		particle = l.instantiate()
 		particle.gradient = null
 		
 		star.add_child(particle)
-		
+	
+	# No target
 	if smallest_star == null or smallest_dist > star.get_radius() * 20:
 		particle.visible = false
 		sucking = null
 		return
 	
+	# Target Changed
 	var max_timeout = max(0.5, 3.0/level)
 	if smallest_star!=sucking:
 		timeout = max_timeout
+		SoundManager.instance.play_sound("res://sound/laser.wav",0.5,star.position)
 	
 	sucking = smallest_star
 	

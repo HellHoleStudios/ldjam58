@@ -77,15 +77,16 @@ func update_visual():
 	var radius = get_radius()
 	$Sprite.scale = Vector2(1, 1) * radius / ($Sprite.texture.get_height() / 2)
 	$Collision.shape.radius = radius
-
-	
 	$Sprite.self_modulate = color_ramp.sample(age)
 
 func merge_features(other: Star) -> void:
+	
+	var merged_any=false
 	for f in other.features:
 		if not f.mergeable():
 			continue
-
+		merged_any=true
+		
 		var found = false
 		for i in range(features.size()):
 			if features[i].get_script() == f.get_script():
@@ -95,6 +96,9 @@ func merge_features(other: Star) -> void:
 		if not found:
 			# 复制一个新的同类feature
 			Game.get_feature(f).new(self, f.level)
+	
+	if merged_any and self is PlayerStar:
+		SoundManager.instance.play_sound("res://sound/pickupCoin.wav",1.0,self.position)
 
 func merge(other: Star) -> void:
 	other.mass /= 3
@@ -111,6 +115,11 @@ func merge(other: Star) -> void:
 	self.merge_features(other)
 	other.queue_free()
 	merge_count += 1
+	
+	if self is PlayerStar:
+		SoundManager.instance.play_sound("res://sound/powerUp.wav", 0.3, self.position)
+	else:
+		SoundManager.instance.play_sound("res://sound/powerUp.wav", 0.1, self.position)
 	
 func _on_body_entered(body: Node) -> void:
 	if body is Star:
@@ -183,7 +192,7 @@ func explode(star: Star, CRASH_SPEED = 50.0, affect_self = true):
 	var explosion_scale = get_radius() / 40
 	explosion.scale = Vector2(explosion_scale, explosion_scale)
 
-	SoundManager.instance.play_sound("res://sound/explosion.wav", 0.7)
+	SoundManager.instance.play_sound("res://sound/explosion2.wav", 1, self.position)
 
 func calc_star_force(other: Star) -> Vector2:
 	if other.get_instance_id() in IgnoreGravity:

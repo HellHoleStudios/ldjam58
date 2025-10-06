@@ -22,6 +22,7 @@ var SPEED = 50
 func dash(direction: Vector2) -> void:
 	dash_timer = duration
 	star.linear_velocity = direction.normalized() * SPEED * star.get_radius()
+	SoundManager.instance.play_sound("res://sound/jump.wav",0.5,star.position)
 
 func process(delta: float) -> void:
 	if dash_timer > 0:

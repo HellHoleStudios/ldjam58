@@ -10,5 +10,5 @@ func _process(delta: float) -> void:
 		#targetZoom=(1/sqrt(2))**(layer-5)
 	
 	targetZoom = 32/%player.get_radius()
-	targetZoom = clamp(targetZoom, 0, 1)
+	targetZoom = clamp(targetZoom, 1e-20, 1)
 	self.zoom=lerp(self.zoom,Vector2.ONE*targetZoom,0.01)
