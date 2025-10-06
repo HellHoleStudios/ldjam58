@@ -11,6 +11,7 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 Focus on nearest large star. If focused for long enough, break and split it.
+Indicated by a green(player initiated)/red(enemy initiated) line.
 
 Generates after layer 8.
 	"""
@@ -43,6 +44,8 @@ func process(delta: float) -> void:
 			
 	if particle==null:
 		particle=l.instantiate()
+		particle.gradient=null
+		
 		star.add_child(particle)
 		
 	if smallest_star==null or smallest_dist>star.get_radius()*20:
@@ -59,15 +62,18 @@ func process(delta: float) -> void:
 	particle.visible=true
 	particle.points[1]=smallest_star.position-star.position
 	particle.width = 5
-	particle.default_color=Color.RED.lightened(timeout/max_timeout)
+	if star is PlayerStar:
+		particle.default_color=Color.GREEN.lightened(timeout/max_timeout)
+	else:
+		particle.default_color=Color.RED.lightened(timeout/max_timeout)
 	
 	if timeout<0 and sucking!=null:
-		sucking.split(sucking.mass/2)
+		sucking.explode(star,50.0,false)
 		sucking=null
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	#print(star)
 	if Game.get_layer(star.position)>=8:
 		#print("Indeed greater generate")
-		return 0.05
-	return 1
+		return min(0.25,0.05+(Game.get_layer(star.position)-8)*0.01)
+	return 0
