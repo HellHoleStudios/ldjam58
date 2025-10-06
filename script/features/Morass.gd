@@ -2,15 +2,15 @@ extends StarFeature
 class_name Morass
 
 static func get_feature_name() -> String:
-	return "Morass"
+	return "Accretion"
 
 static func get_feature_desc() -> String:
 	return """
-Creates a viscous field that slows down nearby stars.
+Creates an accretion disk that slows down nearby stars.
 Can be found in the wild with a small chance.
 """
 
-var sprite_texture: Texture2D = preload("res://texture/morass.png")
+var sprite_texture: Texture2D = preload("res://texture/accretion.png")
 
 var sprite: Sprite2D = null
 
@@ -26,6 +26,7 @@ func process(delta: float) -> void:
 		# sprite不能覆盖星体
 		sprite.z_index = -1
 
+	sprite.rotation-=0.02
 	# 半透明，随时间波动
 	sprite.modulate.a = 0.3 + 0.04 * sin(timer * 5)
 
@@ -44,7 +45,7 @@ func process(delta: float) -> void:
 		if has_bullet:
 			continue
 		if other != star and other.get_position().distance_to(star.get_position()) < affect_range:
-			other.linear_velocity *= 0.97
+			other.linear_velocity *= 0.995
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
 	return 0.02

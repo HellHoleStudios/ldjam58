@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1jcbq5msljm2"]
+
+[ext_resource type="Texture2D" uid="uid://b0ssfanp021b" path="res://texture/H_explode.png" id="1_jugl7"]
+[ext_resource type="Script" uid="uid://cv77qhkryqm2u" path="res://script/obj/H_explosion.gd" id="2_u613n"]
+
+[node name="H_explosion" type="Sprite2D"]
+texture = ExtResource("1_jugl7")
+script = ExtResource("2_u613n")

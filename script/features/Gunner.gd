@@ -15,6 +15,9 @@ When Ejecta hits a target, it may break the target.
 Can be found in the wild with a small chance.
 	"""
 
+func init(_star: Star, _level: int) -> void:
+	_star.queue_redraw()
+	super.init(_star, _level)
 
 func shoot(direction: Vector2) -> void:
 	var BULLET_MASS_RATIO = 0.02
@@ -30,9 +33,10 @@ func shoot(direction: Vector2) -> void:
 	bullet.linear_velocity = direction.normalized() * star.get_radius() * 40
 	var bullet_feature = bullet_script.new(bullet, 1)
 	bullet_feature.father = star
+	
+	SoundManager.instance.play_sound("res://sound/gunshot.wav",0.7,star.position)
 
 func process(delta: float) -> void:
-	
 	if star is PlayerStar:
 		var direction: Vector2 = Vector2.ZERO
 		if Input.is_action_just_pressed("Shoot"):

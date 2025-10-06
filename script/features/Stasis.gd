@@ -5,14 +5,10 @@ var sprite_texture: Texture2D = preload("res://texture/stasis_cover.png")
 var sprite: Sprite2D = null
 
 static func get_feature_name() -> String:
-	return "Stasis"
+	return "Sturdy"
 static func get_feature_desc() -> String:
 	return """
-<<<<<<< Updated upstream
-The star can resist crash force and cannot split.
-=======
 The star can resist crash force and cannot split from crash, but lose 1% mass.
->>>>>>> Stashed changes
 	"""
 
 func process(_delta: float) -> void: 

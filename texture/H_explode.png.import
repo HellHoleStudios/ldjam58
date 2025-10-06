@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q32msg7hrj7q"
-path="res://.godot/imported/Stasis.png-12957b5b036164efeeeabea069da0a48.ctex"
+uid="uid://b0ssfanp021b"
+path="res://.godot/imported/H_explode.png-1ec7274027d11ab2ca44446fd3c24ef6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://texture/feature/Stasis.png"
-dest_files=["res://.godot/imported/Stasis.png-12957b5b036164efeeeabea069da0a48.ctex"]
+source_file="res://texture/H_explode.png"
+dest_files=["res://.godot/imported/H_explode.png-1ec7274027d11ab2ca44446fd3c24ef6.ctex"]
 
 [params]
 

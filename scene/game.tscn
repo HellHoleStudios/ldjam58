@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://brvqecxd83x06"]
+[gd_scene load_steps=15 format=3 uid="uid://brvqecxd83x06"]
 
 [ext_resource type="Script" uid="uid://ca7xk712gbxyn" path="res://script/ui/player.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
 [ext_resource type="Script" uid="uid://b2bojqc03srss" path="res://script/ui/collection_container.gd" id="8_ll5lq"]
 [ext_resource type="Texture2D" uid="uid://cuxpgrm64au7k" path="res://texture/feature/Fluctuation.png" id="9_17rxn"]
+[ext_resource type="Script" uid="uid://dbpqsjdiq38hc" path="res://script/managers/SoundManager.gd" id="10_yq8tf"]
 
 [sub_resource type="Gradient" id="Gradient_5kiuu"]
 colors = PackedColorArray(0, 0, 0, 1, 0.23137255, 0.18039216, 0.2627451, 1)
@@ -51,6 +52,9 @@ texture = ExtResource("4_xlg7c")
 limit_enabled = false
 script = ExtResource("5_qpk70")
 
+[node name="AudioListener2D" type="AudioListener2D" parent="player/Sprite"]
+current = true
+
 [node name="Collision" type="CollisionShape2D" parent="player"]
 shape = SubResource("CircleShape2D_5kiuu")
 
@@ -59,10 +63,13 @@ shape = SubResource("CircleShape2D_5kiuu")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="UIRoot" type="Control" parent="CanvasLayer"]
+texture_filter = 4
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4_xwcet")
 
 [node name="DataContainer" type="FoldableContainer" parent="CanvasLayer/UIRoot"]
@@ -115,9 +122,9 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 925.0
+offset_left = -199.0
 offset_top = 19.0
-offset_right = 1081.0
+offset_right = -43.0
 offset_bottom = 296.0
 grow_horizontal = 0
 title = "Collection"
@@ -157,6 +164,9 @@ offset_right = 387.0
 offset_bottom = 387.0
 text = "Feature Description Goes Here!!!"
 autowrap_mode = 3
+
+[node name="SoundManager" type="Node2D" parent="."]
+script = ExtResource("10_yq8tf")
 
 [connection signal="body_entered" from="player" to="player" method="_on_body_entered"]
 [connection signal="close_requested" from="CanvasLayer/UIRoot/CollectionContainer/Window" to="CanvasLayer/UIRoot/CollectionContainer/VBoxContainer" method="_on_window_close_requested"]

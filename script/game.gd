@@ -85,19 +85,12 @@ func generate_stars():
 
 var features = []
 func init_features():
-	features = []
-	var dir = DirAccess.open("res://script/features") # FIXME according to doc this is not correct.
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if file_name.ends_with(".gd"):
-				var path = "res://script/features/" + file_name
-				var feature_script = load(path)
-				if feature_script:
-					features.append(feature_script)
-			file_name = dir.get_next()
-		dir.list_dir_end()
+	for file_name in ResourceLoader.list_directory("res://script/features/"):
+		if file_name.ends_with(".gd"):
+			var path = "res://script/features/" + file_name
+			var feature_script = load(path)
+			if feature_script:
+				features.append(feature_script)
 
 static func get_feature(target_feature: StarFeature):
 	for feature_script in instance.features:
