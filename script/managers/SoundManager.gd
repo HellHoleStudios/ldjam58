@@ -9,6 +9,7 @@ var main_volume: float = 1.0
 
 func _ready() -> void:
 	instance = self
+	play_music_loop("res://sound/midnight_drive.ogg")
 
 # 播放音效
 func play_sound(sound_path: String, volume: float = 1.0) -> void:
@@ -21,3 +22,14 @@ func play_sound(sound_path: String, volume: float = 1.0) -> void:
 	sound.play()
 	await sound.finished
 	sound.queue_free()
+
+# 循环播放音乐
+func play_music_loop(sound_path: String):
+	var music = AudioStreamPlayer.new()
+	var stream = load(sound_path)
+	if stream is AudioStream:
+		stream.loop = true
+	music.stream = stream
+	music.volume_db = 20 * log(main_volume) / log(10)
+	add_child(music)
+	music.play()

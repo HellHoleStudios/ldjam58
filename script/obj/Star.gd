@@ -183,7 +183,7 @@ func explode(star: Star, CRASH_SPEED = 50.0, affect_self = true):
 	var explosion_scale = get_radius() / 40
 	explosion.scale = Vector2(explosion_scale, explosion_scale)
 
-	SoundManager.instance.play_sound("res://sound/explosion.wav", 0.3)
+	SoundManager.instance.play_sound("res://sound/explosion.wav", 0.7)
 
 func calc_star_force(other: Star) -> Vector2:
 	if other.get_instance_id() in IgnoreGravity:
