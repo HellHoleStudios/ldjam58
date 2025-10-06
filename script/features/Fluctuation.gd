@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Fluctuation"
 static func get_feature_desc() -> String:
 	return """
-Generate a fluctuation wave every once in a while that pull smaller objects towards it.
+Generate a fluctuation wave every once in a while that pulls smaller objects towards the user.
 Can be found in the wild with a small chance.
 	"""
 
