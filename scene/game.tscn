@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dvr080hibocwr" path="res://script/game.gd" id="1_dbls1"]
 [ext_resource type="Script" uid="uid://dfn701536rkc8" path="res://script/bg.gd" id="2_xwcet"]
 [ext_resource type="Texture2D" uid="uid://bqkb8gkwqnw35" path="res://texture/planet1_nocolor.png" id="4_xlg7c"]
-[ext_resource type="Script" path="res://script/ui/ui_root.gd" id="4_xwcet"]
+[ext_resource type="Script" uid="uid://cf1vehsg3by0e" path="res://script/ui/ui_root.gd" id="4_xwcet"]
 [ext_resource type="Script" uid="uid://7ffiw4pcdjd1" path="res://script/ui/data_container.gd" id="5_p1ry8"]
 [ext_resource type="Script" uid="uid://b252cafvsi48r" path="res://script/ui/camera.gd" id="5_qpk70"]
 [ext_resource type="Script" uid="uid://b2bojqc03srss" path="res://script/ui/collection_container.gd" id="8_ll5lq"]
@@ -51,6 +51,9 @@ texture = ExtResource("4_xlg7c")
 [node name="Camera2D" type="Camera2D" parent="player/Sprite"]
 limit_enabled = false
 script = ExtResource("5_qpk70")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="player/Sprite"]
+current = true
 
 [node name="Collision" type="CollisionShape2D" parent="player"]
 shape = SubResource("CircleShape2D_5kiuu")

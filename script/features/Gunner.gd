@@ -30,6 +30,8 @@ func shoot(direction: Vector2) -> void:
 	bullet.linear_velocity = direction.normalized() * star.get_radius() * 40
 	var bullet_feature = bullet_script.new(bullet, 1)
 	bullet_feature.father = star
+	
+	SoundManager.instance.play_sound("res://sound/gunshot.wav",0.7,star.position)
 
 func process(delta: float) -> void:
 	

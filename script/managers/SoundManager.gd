@@ -12,10 +12,16 @@ func _ready() -> void:
 	play_music_loop("res://sound/midnight_drive.ogg")
 
 # 播放音效
-func play_sound(sound_path: String, volume: float = 1.0) -> void:
+func play_sound(sound_path: String, volume: float = 1.0, position: Vector2 = Vector2.INF) -> void:
 	volume = clamp(volume, 0.0, 1.0)
 	volume *= main_volume
-	var sound = AudioStreamPlayer.new()
+	var sound
+	if position == Vector2.INF:
+		sound = AudioStreamPlayer2D.new()
+		sound.global_position = position
+	else:
+		sound = AudioStreamPlayer.new()
+		
 	sound.stream = load(sound_path)
 	sound.volume_db = 20 * log(volume) / log(10)
 	add_child(sound)
