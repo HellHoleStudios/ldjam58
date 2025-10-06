@@ -9,6 +9,8 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 The star can resist crash force and cannot split from crash, but lose 1% mass.
+
+Generates after layer 12.
 	"""
 
 func process(_delta: float) -> void: 
@@ -40,7 +42,11 @@ func crash(other: Star) -> bool:
 	return true
 
 static func generate_weight(stars: Array[Node], player: PlayerStar, star: Star) -> float:
-	for f in player.features:
-		if f is Morass:
-			return 0.1
+	#print(star)
+	if Game.get_layer(star.position) >= 12:
+		for f in player.features:
+			if f is Morass:
+				return 0.05
+		return 0
 	return 0
+	
