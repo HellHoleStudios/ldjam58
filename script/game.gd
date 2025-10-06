@@ -56,7 +56,7 @@ func generate_stars():
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
 		
-		print("now=",$stars.get_child_count())
+		print("now=", $stars.get_child_count())
 		while area_accum >= 0:
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
@@ -79,7 +79,7 @@ func generate_stars():
 				var mass = randf_range(0.1 * $player.mass, 3 * $player.mass)
 				var star = spawn_star_displayer(pos, mass)
 				set_star_features(star)
-				area_accum -= max(1, log(mass)) * density * 300
+				area_accum -= max(1, pow(star.get_radius(), 1.0 / 1.95)) * density * 300 # 额，魔法数字
 	
 	last_player_pos = player_pos
 
@@ -155,7 +155,7 @@ static func spawn_star_displayer(pos: Vector2, mass: float, linear_velocity: Vec
 	star.linear_velocity = linear_velocity
 	star.age = randf_range(0, 0.8)
 	
-	instance.stars.call_deferred("add_child",star)
+	instance.stars.call_deferred("add_child", star)
 	return star
 
 static func get_all_stars() -> Array:
