@@ -6,7 +6,7 @@ static func get_feature_name() -> String:
 
 static func get_feature_desc() -> String:
 	return """
-Allows the star to dash quickly in a direction. When colliding with other stars during a dash, it crashes them explosively.
+Allows the star to dash quickly in a direction. When colliding with bigger objects during a dash, it crashes them explosively.
 Player can dash towards the mouse by holding Shift.
 Can be found in the wild with a small chance.
 """
@@ -22,7 +22,7 @@ var SPEED = 50
 func dash(direction: Vector2) -> void:
 	dash_timer = duration
 	star.linear_velocity = direction.normalized() * SPEED * star.get_radius()
-	SoundManager.instance.play_sound("res://sound/jump.wav",0.5,star.position)
+	SoundManager.instance.play_sound("res://sound/jump.wav", 0.5, star.position)
 
 func process(delta: float) -> void:
 	if dash_timer > 0:
@@ -76,7 +76,7 @@ func process(delta: float) -> void:
 
 func crash(other: Star) -> bool:
 	print("Bullet crash detected")
-	if dash_timer == 0:
+	if dash_timer == 0 or other.mass < star.mass * 0.9:
 		return false
 	else:
 		dash_timer = 0
