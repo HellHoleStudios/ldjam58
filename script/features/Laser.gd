@@ -10,7 +10,7 @@ static func get_feature_name() -> String:
 	return "Laser"
 static func get_feature_desc() -> String:
 	return """
-Shoot a layer focused on the nearest large star. If focused for long enough, the laser breaks and splits it.
+Shoot a layer focused on the nearest large star (>1.5x mass). If focused for long enough, the laser breaks and splits it.
 Indicated by a green(player initiated)/red(enemy initiated) line.
 
 Generates after layer 8.
@@ -30,13 +30,13 @@ func process(delta: float) -> void:
 		if other_star is not Star or other_star == star or other_star.mass < 1:
 			continue
 		var os: Star = other_star
-		if os.mass > star.mass:
+		if os.mass > 1.5* star.mass:
 			var dist = star.position.distance_to(other_star.position)
 			if dist < smallest_dist:
 				smallest_star = os
 				smallest_dist = dist
 	
-	if PlayerStar.instance.mass > star.mass:
+	if PlayerStar.instance.mass > 1.5* star.mass:
 		var dist = star.position.distance_to(PlayerStar.instance.position)
 		if dist < smallest_dist:
 			smallest_dist = dist
@@ -53,8 +53,8 @@ func process(delta: float) -> void:
 		sucking = null
 		return
 	
-	var max_timeout = 3.0 / level
-	if smallest_star != sucking:
+	var max_timeout = max(0.5, 3.0/level)
+	if smallest_star!=sucking:
 		timeout = max_timeout
 	
 	sucking = smallest_star
