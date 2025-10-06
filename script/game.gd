@@ -29,7 +29,7 @@ func _process(delta):
 	player_pos = $player.position
 	# 根据玩家能看到的范围确定boundary
 	boundary_radius = 1000 / (camera.zoom.x)
-	density_ratio = 1000 / ((camera.zoom.x) ** 0.5)
+	density_ratio = 10000 / ((camera.zoom.x)**0.5)
 	
 	if not stars:
 		return
@@ -56,7 +56,7 @@ func generate_stars():
 		# 按密度生成新star_displayer
 		var density = boundary_radius * boundary_radius / density_ratio
 		
-		print("now=", $stars.get_child_count())
+		#print("now=", $stars.get_child_count())
 		while area_accum >= 0:
 			# 计算玩家移动方向
 			var move_vec = player_pos - last_player_pos
