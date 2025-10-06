@@ -50,7 +50,7 @@ func process(delta: float) -> void:
 	
 	particle.visible = true
 	particle.points[1] = smallest_star.position - star.position
-	particle.width = (sin(acc_delta * 2) * 2 + 5) * Game.instance.camera.zoom.x
+	particle.width = (sin(acc_delta * 2) * 2 + 5) / Game.instance.camera.zoom.x
 	
 	var steal = smallest_star.mass * (level / 10000.0)
 	

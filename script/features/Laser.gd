@@ -61,7 +61,7 @@ func process(delta: float) -> void:
 	
 	particle.visible = true
 	particle.points[1] = smallest_star.position - star.position
-	particle.width = 5 * Game.instance.camera.zoom.x
+	particle.width = 5 / Game.instance.camera.zoom.x
 	if star is PlayerStar:
 		particle.default_color = Color.GREEN.lightened(timeout / max_timeout)
 	else:
