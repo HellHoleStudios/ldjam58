@@ -9,6 +9,7 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 The star can resist crash force and cannot split from crash, but lose 1% mass.
+Indicated by a transparent protecting shield.
 
 Generates after layer 12.
 	"""

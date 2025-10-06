@@ -6,6 +6,7 @@ static func get_feature_name() -> String:
 static func get_feature_desc() -> String:
 	return """
 Explode when colliding with another star, causing massive damage to nearby stars.
+Indicated by red warning circles.
 
 Can be found in the wild with a small chance.
 	"""
