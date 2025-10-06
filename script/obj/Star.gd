@@ -131,7 +131,7 @@ func _on_body_entered(body: Node) -> void:
 			else:
 				var CRASH_SPEED = 50
 				if (star.linear_velocity - linear_velocity).length() > CRASH_SPEED: # 临界速度可调
-					explode(star,CRASH_SPEED)
+					explode(star, CRASH_SPEED)
 				else:
 					var BOUNCE_FACTOR = 20
 					var dir = (star.position - position).normalized()
@@ -146,7 +146,8 @@ func _on_body_entered(body: Node) -> void:
 					star.add_ignore_gravity(self, 0.2)
 					add_ignore_gravity(star, 0.2)
 
-func explode(star: Star,CRASH_SPEED=50.0, affect_self = true):
+# 爆炸的star是自己
+func explode(star: Star, CRASH_SPEED = 50.0, affect_self = true):
 	#print("split")
 	linear_velocity = star.linear_velocity * 2
 	# 分裂成多个碎块
@@ -203,7 +204,7 @@ func calc_star_force(other: Star) -> Vector2:
 func update_ignore_gravity(delta: float):
 	var to_remove = []
 	for star_id in IgnoreGravity.keys():
-		var star:Star=instance_from_id(star_id)
+		var star: Star = instance_from_id(star_id)
 		if not is_instance_valid(star):
 			if star_id not in to_remove:
 				to_remove.append(star_id)
