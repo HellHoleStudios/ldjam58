@@ -16,6 +16,7 @@ func process(_delta: float) -> void:
 		sprite = Sprite2D.new()
 		sprite.texture = sprite_texture
 		star.add_child(sprite)
+		sprite.modulate.a = 0.3
 	sprite.scale = star.get_sprite().scale
 
 func crash(other: Star) -> bool:
