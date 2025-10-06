@@ -8,7 +8,7 @@ static func get_feature_name() -> String:
 	return "Stasis"
 static func get_feature_desc() -> String:
 	return """
-The star can resist crash force and cannot split.
+The star can resist crash force and cannot split from crash.
 	"""
 
 func process(_delta: float) -> void: 
