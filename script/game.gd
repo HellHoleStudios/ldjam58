@@ -19,6 +19,7 @@ const MAX_GRAVITY_DIST = 500 * 500
 
 # stars节点引用（需在ready时获取或导出）
 @onready var stars = $stars
+@onready var camera = $player/Sprite/Camera2D
 
 # 玩家调用此函数更新位置
 func update_player_pos(new_pos: Vector2):
@@ -27,8 +28,8 @@ func update_player_pos(new_pos: Vector2):
 func _process(delta):
 	player_pos = $player.position
 	# 根据玩家能看到的范围确定boundary
-	boundary_radius = 1000 / ($player/Sprite/Camera2D.zoom.x)
-	density_ratio = 1000 / (($player/Sprite/Camera2D.zoom.x) ** 0.5)
+	boundary_radius = 1000 / (camera.zoom.x)
+	density_ratio = 1000 / ((camera.zoom.x) ** 0.5)
 	
 	if not stars:
 		return
