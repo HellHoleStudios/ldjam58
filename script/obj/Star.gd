@@ -45,7 +45,12 @@ func update_mass(_mass: float):
 	update_visual()
 
 func get_radius() -> float:
-	return min(1e6,sqrt(mass) * 3)
+	var exp=sqrt(mass)*3
+	if exp>1e6:
+		return 1e6*mass/PlayerStar.instance.mass
+		
+	else:
+		return exp
 
 func get_sprite() -> Sprite2D:
 	return $Sprite

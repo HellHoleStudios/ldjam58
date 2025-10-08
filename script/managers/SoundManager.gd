@@ -7,27 +7,31 @@ static var instance: SoundManager
 
 var main_volume: float = 1.0
 
+var buf:Array[AudioStreamPlayer]=[]
+var nxt_buf=0
 func _ready() -> void:
 	instance = self
 	play_music_loop("res://sound/midnight_drive.ogg")
+	
+	for i in range(100):
+		buf.append(AudioStreamPlayer.new())
+		add_child(buf[-1])
 
 # 播放音效
 func play_sound(sound_path: String, volume: float = 1.0, position: Vector2 = Vector2.INF) -> void:
 	volume = clamp(volume, 0.0, 1.0)
 	volume *= main_volume
-	var sound
-	if position == Vector2.INF:
-		sound = AudioStreamPlayer2D.new()
-		sound.global_position = position
-	else:
-		sound = AudioStreamPlayer.new()
+	var sound = buf[nxt_buf]
+	nxt_buf = (nxt_buf+1)%len(buf)
+	#print(nxt_buf)
+	#if position != Vector2.INF:
+		#sound.global_position = position
+	#else:
+	#sound.global_position = PlayerStar.instance.position
 		
 	sound.stream = load(sound_path)
 	sound.volume_db = 20 * log(volume) / log(10)
-	add_child(sound)
 	sound.play()
-	await sound.finished
-	sound.queue_free()
 
 # 循环播放音乐
 func play_music_loop(sound_path: String):

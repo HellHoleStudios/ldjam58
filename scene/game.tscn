@@ -167,6 +167,16 @@ offset_bottom = 387.0
 text = "Feature Description Goes Here!!!"
 autowrap_mode = 3
 
+[node name="Label" type="Label" parent="CanvasLayer/UIRoot"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -19.0
+offset_right = 833.0
+grow_vertical = 0
+text = "* You've entered the LATE-GAME zone where everyone has a super large mass! Any glitch could start happening now due to float precision issues."
+
 [node name="SoundManager" type="Node2D" parent="."]
 script = ExtResource("10_yq8tf")
 
